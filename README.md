@@ -59,7 +59,7 @@ Simple tutorial(Windows Console Application,for Windows version you can check ou
         public bool NonSerialize { get; set; }
     }
 	
-```csharp
+```
 
 2.Create a new Todo ,and send it to server.
 
@@ -78,7 +78,7 @@ Simple tutorial(Windows Console Application,for Windows version you can check ou
 		
 		Console.WriteLine("main thread ouptut:the newItem Id is:{0}, Content is {1}", result.ItemId, result.Content);
 		
-```csharp
+```
 
 More demos can be got from code.
 
