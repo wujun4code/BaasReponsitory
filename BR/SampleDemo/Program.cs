@@ -43,7 +43,6 @@ namespace SampleDemo
                 }
                 ));
 
-
             #endregion
 
             #region Demo for Add in main thread.
