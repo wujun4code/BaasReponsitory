@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0BC6A3DE-3AEC-4C3E-BBBA-44340F9407AE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BaaSReponsitory</RootNamespace>
+    <AssemblyName>BaaSReponsitory</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;FRAMEWORK</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ServiceContracts\IInterfaceFactory.cs" />
+    <Compile Include="ServiceImpls\AVOSCloud.cs" />
+    <Compile Include="DataContracts\AVOSCloudJsonWrapper.cs" />
+    <Compile Include="ServiceImpls\AVOSCloudRest.cs" />
+    <Compile Include="ServiceImpls\BaaSConfigurationSection.cs" />
+    <Compile Include="DataContracts\BaaSServiceHost.cs" />
+    <Compile Include="DataContracts\BaaSType.cs" />
+    <Compile Include="ServiceImpls\BaseBaaS.cs" />
+    <Compile Include="ServiceImpls\BaseBssSProvider.cs" />
+    <Compile Include="ServiceImpls\BaseRestBaaS.cs" />
+    <Compile Include="DataContracts\BRDic.cs" />
+    <Compile Include="DataContracts\BRException.cs" />
+    <Compile Include="ServiceImpls\BssSProvider.cs" />
+    <Compile Include="DataContracts\CloudFiled.cs" />
+    <Compile Include="DataContracts\CloudObject.cs" />
+    <Compile Include="ServiceImpls\Parse.cs" />
+    <Compile Include="ServiceImpls\ParseRest.cs" />
+    <Compile Include="ServiceImpls\SimpleFactory.cs" />
+    <Compile Include="ServiceContracts\IBaaS.cs" />
+    <Compile Include="ServiceContracts\IBaaSConfig.cs" />
+    <Compile Include="ServiceContracts\IBaaSProvider.cs" />
+    <Compile Include="ServiceContracts\IBaaSService.cs" />
+    <Compile Include="ServiceContracts\IRestBaaS.cs" />
+    <Compile Include="DataContracts\JsonWrapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceImpls\SimpleService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
