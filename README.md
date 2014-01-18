@@ -7,7 +7,7 @@ a library to help use Parse.com and AVOSCloud, and other restful BaaS service.
 ===============
 This library is an open, flexible helper to use restful API from remote server.
 
-Simple tutorial(Windows Console Application,for Windows version you can check out the code ,and run WP Demo.Thanks.):
+Simple tutorial(Windows Console Application,for Windows Phone 8 version you can check out the code ,and run WP Demo.Thanks.):
 
 1.define a Class like this:
 
