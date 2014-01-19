@@ -9,6 +9,47 @@ This library is an open, flexible helper to use restful API from remote server.
 
 Simple tutorial(Windows Console Application,for Windows Phone 8 version you can check out the code ,and run WP Demo.Thanks.):
 
+
+## Configuration(IMPORTANT)
+
+a.if you want to use BaaS as your data server,please register a acount from Parse(https://parse.com.)
+  if you are in China mainland, please use AVOSCloud(https://cn.avoscloud.com/) as your BaaS server provider.
+
+b.for General .NET Framework Application,there is always a "App.config" file in project root folder.
+You can download the code, open "SampleDemo" project to check the config file.
+for Windows Phone 8 app, you must add a xml file named "App.Config", and MUST set it path is "Resources/Config/App.Config", and set it build action is "Content".
+"BRDemo.WindowsPhone" project from the code is a good sample.
+
+this library need a structured config section to use.
+just like this:
+ ```xml
+ <configuration>
+  <configSections>
+    <section name="BaaSConfigurationSection" type="BaaSReponsitory.BaaSConfigurationSection,BaaSReponsitory" />
+  </configSections>
+
+  <BaaSConfigurationSection>
+    <BaaSHosts>
+      <Host key="parse" name="Parse"  assemblyName="BaaSReponsitory" targetVersion="1.0" 
+            appId="your Parse.com app id ,it can be got from the parse portal" restApiAppkey="your perse rest app key" 
+            restApiAddress="https://api.parse.com" apiVersion="1"/>
+      
+      <Host key="avos" name="AVOSCloud" assemblyName="BaaSReponsitory" targetVersion="1.1" 
+            appId="your AVOSCloud app id" restApiAppkey="your AVOSCloud app key" 
+            restApiAddress="https://cn.avoscloud.com" apiVersion="1"/>
+    </BaaSHosts>
+    <CloudClasses> 
+      <model ClassName="TestObject" assemblyName="SampleDemo" hostKey="avos"/>
+      <model ClassName="Todo" assemblyName="SampleDemo" hostKey="parse"/>
+    </CloudClasses>
+  </BaaSConfigurationSection>
+  
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5" />
+  </startup>
+</configuration>
+ ```
+## Useage Example
 1.define a Class like this:
 
 ```csharp
