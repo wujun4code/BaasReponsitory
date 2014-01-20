@@ -24,5 +24,9 @@ namespace BaaSReponsitory
         public string createdAt { get; set; }
 
         public string updatedAt { get; set; }
+
+        public string code { get; set; }
+
+        public string error { get; set; }
     }
 }

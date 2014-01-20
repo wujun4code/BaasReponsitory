@@ -344,6 +344,12 @@ namespace BaaSReponsitory
 
         #region process response after do request logic business
 
+        public virtual void ErrorCatcher(IRestResponse rep)
+        {
+            var result = JObject.Parse(rep.Content);
+            var wrapper = result.ToObject<TRootWrapper>();
+        }
+
         public virtual T SetTEntityId<T>(T entity, TKey objectId)
         {
             var type = typeof(T);
@@ -390,8 +396,6 @@ namespace BaaSReponsitory
             }
             return rtn;
         }
-
-        
 
         public virtual TKey GetObjectIdByResponseAfterPost(IRestResponse rep)
         {
