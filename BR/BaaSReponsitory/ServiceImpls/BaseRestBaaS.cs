@@ -348,6 +348,14 @@ namespace BaaSReponsitory
         {
             var result = JObject.Parse(rep.Content);
             var wrapper = result.ToObject<TRootWrapper>();
+
+            if (String.IsNullOrEmpty(wrapper.ErrorCode))
+            {
+#if FRAMEWORK
+                var exception = new BRException(wrapper.ErrorMessage);
+                exception.Data.Add("error", wrapper.ErrorCode);
+#endif
+            }
         }
 
         public virtual T SetTEntityId<T>(T entity, TKey objectId)

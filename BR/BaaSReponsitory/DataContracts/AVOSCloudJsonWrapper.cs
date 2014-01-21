@@ -19,6 +19,31 @@ namespace BaaSReponsitory
                 PrimaryKey = value;
             }
         }
+
+        public override string ErrorCode
+        {
+            get
+            {
+                return code;
+            }
+            set
+            {
+                code = value;
+            }
+        }
+
+        public override string ErrorMessage
+        {
+            get
+            {
+                return error;
+            }
+            set
+            {
+                error = value;
+            }
+        }
+
         public string objectId { get; set; }
 
         public string createdAt { get; set; }
@@ -28,5 +53,6 @@ namespace BaaSReponsitory
         public string code { get; set; }
 
         public string error { get; set; }
+
     }
 }
