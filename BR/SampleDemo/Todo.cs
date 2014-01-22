@@ -24,31 +24,37 @@ namespace SampleDemo
         [CloudFiled(ColumnName = "Key", IsPrimaryKey = true)]
         public string ItemId { get; set; }
 
-
         /// <summary>
         /// general property.
         /// </summary>
-        [DataMember]
-        [CloudFiled(ColumnName = "Title")]
+        [DataMember(Name = "Title")]
         public string Title { get; set; }
 
-        [DataMember]
-        [CloudFiled(ColumnName = "Status")]
+        [DataMember(Name = "Status")]
         public int Status { get; set; }
 
-        [DataMember]
-        [CloudFiled(ColumnName = "StartTime")]
+        [DataMember(Name = "StartTime")]
         public DateTime StartTime { get; set; }
 
-        [DataMember]
-        [CloudFiled(ColumnName = "Content")]
+        [DataMember(Name = "Content")]
         public string Content { get; set; }
 
-        [DataMember]
-        [CloudFiled(ColumnName = "From")]
+        [DataMember(Name = "From")]
         public string From { get; set; }
 
+        /// <summary>
+        /// PointerTarget define the pointer to a class in server.
+        /// PointerValueName is a TodoType Id.
+        /// </summary>
+        [CloudFiled(IsPointer = true, PointerTarget = "TodoType", PointerValueName = "_typeId")]
+        [DataMember(Name = "typeId")]
+        public CloudPointer TypeId { get; set; }
 
+        /// <summary>
+        ///  set this property to a TodoType Id, it helps CloudPointer to add pointer from Todo to a TodoType.
+        ///  but it will not be sent to server.
+        /// </summary>
+        public string _typeId { get; set; }
         /// <summary>
         /// without [DataMember] attribute, it will NOT be sent to server.
         /// </summary>

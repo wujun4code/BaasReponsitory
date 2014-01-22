@@ -18,7 +18,9 @@ namespace SampleDemo
                 Content = "fork BR in github",
                 StartTime = DateTime.Now.AddHours(1),
                 Title = "say hello to BR",
-                Status = 0
+                Status = 0,
+                _typeId = "52df641de4b01b525fce6276",
+                From = "pc"
             };
 
             return rtn;
@@ -34,14 +36,7 @@ namespace SampleDemo
             #region demo
             Todo newItem = CreateNow();
 
-            ss.Add<string, Todo>(newItem, new Action<Todo>
-                (
-                (item) =>
-                {
-                    string mesaage = string.Format("id is{0}", newItem.ItemId);
-                    //MessageBox.Show(mesaage);
-                }
-                ));
+            ss.Add<string, Todo>(newItem);
 
             #endregion
 

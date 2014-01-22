@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContracts\CloudPointer.cs" />
     <Compile Include="ServiceContracts\IInterfaceFactory.cs" />
     <Compile Include="ServiceImpls\AVOSCloud.cs" />
     <Compile Include="DataContracts\AVOSCloudJsonWrapper.cs" />

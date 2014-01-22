@@ -46,20 +46,12 @@ namespace BaaSReponsitory
 
         public override string CreateResource()
         {
-            var rtn = "";
+            return new AVOSCloudRest<TEntity>().CreateResource();
+        }
 
-            var type = typeof(TEntity);
-
-            var cloudObjectAttribute = type.GetCustomAttributes(typeof(CloudObject), true);
-
-            if (cloudObjectAttribute.Length > 0)
-            {
-                var cloudOA = cloudObjectAttribute[0];
-
-                rtn = "classes/" + ((CloudObject)cloudOA).ClassName;
-            }
-
-            return rtn;
+        public override string SerializeEntityToPost(TEntity entity)
+        {
+            return new AVOSCloudRest<TEntity>().SerializeEntityToPost(entity);
         }
     }
 }

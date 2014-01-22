@@ -223,11 +223,8 @@ namespace BaaSReponsitory
 
             SetRequest(req);
 
-            Newtonsoft.Json.JsonSerializerSettings _jsonSetting = new JsonSerializerSettings()
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-            };
-            var BodyDataString = JsonConvert.SerializeObject(entity, _jsonSetting);
+            var BodyDataString = SerializeEntityToPost(entity);
+
             req.AddParameter("application/json", BodyDataString, ParameterType.RequestBody);
 
             return req;
@@ -272,7 +269,7 @@ namespace BaaSReponsitory
             SetRequest(req);
 
 
-            var BodyDataString = JsonConvert.SerializeObject(entity);
+            var BodyDataString = SerializeEntityToPost(entity);
 
             req.AddParameter("application/json", BodyDataString, ParameterType.RequestBody);
 
@@ -338,6 +335,17 @@ namespace BaaSReponsitory
                     req.AddHeader("Content-Type", "application/xml");
                     break;
             }
+        }
+
+        public virtual string SerializeEntityToPost(TEntity entity)
+        {
+            var rtn = "";
+            Newtonsoft.Json.JsonSerializerSettings _jsonSetting = new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+            };
+            rtn = JsonConvert.SerializeObject(entity, _jsonSetting);
+            return rtn;
         }
 
         #endregion
