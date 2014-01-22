@@ -112,6 +112,9 @@
     <Compile Include="..\BaaSReponsitory\DataContracts\CloudObject.cs">
       <Link>DataContracts\CloudObject.cs</Link>
     </Compile>
+    <Compile Include="..\BaaSReponsitory\DataContracts\CloudPointer.cs">
+      <Link>DataContracts\CloudPointer.cs</Link>
+    </Compile>
     <Compile Include="..\BaaSReponsitory\DataContracts\JsonWrapper.cs">
       <Link>DataContracts\JsonWrapper.cs</Link>
     </Compile>

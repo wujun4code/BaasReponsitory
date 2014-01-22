@@ -53,5 +53,10 @@ namespace BaaSReponsitory
         {
             return new AVOSCloudRest<TEntity>().SerializeEntityToPost(entity);
         }
+
+        public override TEntity DeserializerFromResponse(IRestResponse rep)
+        {
+            return new AVOSCloudRest<TEntity>().DeserializerFromResponse(rep);
+        }
     }
 }

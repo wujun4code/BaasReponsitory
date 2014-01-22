@@ -78,7 +78,7 @@ namespace BaaSReponsitory
 #if FRAMEWORK
             rep = Client.Execute(req);
 #endif
-            var rtn = Deserializer<TEntity>(rep, DefaultDataFormat);
+            var rtn = DeserializerFromResponse(rep);
 
             SetTEntityId(rtn, Id);
 
@@ -154,7 +154,7 @@ namespace BaaSReponsitory
             Client.ExecuteAsync(req, new Action<IRestResponse, RestRequestAsyncHandle>(
                 (repp, rrayh) =>
                 {
-                    var rtn = Deserializer<TEntity>(repp, DefaultDataFormat);
+                    var rtn = DeserializerFromResponse(repp);
 
                     SetTEntityId(rtn, Id);
 
@@ -308,8 +308,8 @@ namespace BaaSReponsitory
 
 #if FRAMEWORK
 
-            Client.Proxy = WebRequest.DefaultWebProxy;
-            Client.Proxy.Credentials = CredentialCache.DefaultNetworkCredentials;
+            //Client.Proxy = WebRequest.DefaultWebProxy;
+            //Client.Proxy.Credentials = CredentialCache.DefaultNetworkCredentials;
 #endif
             foreach (var chkey in CustomHeaders.Keys)
             {
@@ -469,6 +469,12 @@ namespace BaaSReponsitory
             }
             return rtn;
         }
+
+        public virtual TEntity DeserializerFromResponse(IRestResponse rep)
+        {
+           return Deserializer<TEntity>(rep, DefaultDataFormat);
+        }
+
         public virtual T Deserializer<T>(IRestResponse response, BaaSDataFormat format)
         {
             T rtn = default(T);

@@ -101,5 +101,44 @@ namespace BaaSReponsitory
 
             return base.SerializeEntityToPost(entity);
         }
+
+        public override TEntity DeserializerFromResponse(IRestResponse rep)
+        {
+
+            var rtn= base.DeserializerFromResponse(rep);
+
+            var type = typeof(TEntity);
+
+            var properties = type.GetProperties();
+
+            foreach (var pro in properties)
+            {
+                var pt = pro.PropertyType;
+                if (pt == typeof(CloudPointer))
+                {
+                    var data = pro.GetValue(rtn);
+                    if (data != null)
+                    {
+                        var cf = pro.GetCustomAttributes(typeof(CloudFiled), true);
+                        if (cf != null)
+                        {
+                            if (cf.Length > 0)
+                            {
+                                var cfInfo = (CloudFiled)cf[0];
+
+                                var cp = (CloudPointer)data;
+
+                                var pv = type.GetProperty(cfInfo.PointerValueName);
+
+                                pv.SetValue(rtn, cp.objectId);
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            return rtn;
+        }
     }
 }

@@ -34,6 +34,11 @@ namespace SampleDemo
             Todo test_todo_obj = new Todo();//A test class for this Parse.com demo(https://parse.com/).you can define another one.
 
             #region demo
+
+            var testId = "52df69b8e4b01b525fce632c";
+
+            var testresult = ss.Get<string, Todo>(testId);
+
             Todo newItem = CreateNow();
 
             ss.Add<string, Todo>(newItem);
