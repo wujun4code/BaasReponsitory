@@ -308,8 +308,8 @@ namespace BaaSReponsitory
 
 #if FRAMEWORK
 
-            //Client.Proxy = WebRequest.DefaultWebProxy;
-            //Client.Proxy.Credentials = CredentialCache.DefaultNetworkCredentials;
+            Client.Proxy = WebRequest.DefaultWebProxy;
+            Client.Proxy.Credentials = CredentialCache.DefaultNetworkCredentials;
 #endif
             foreach (var chkey in CustomHeaders.Keys)
             {
