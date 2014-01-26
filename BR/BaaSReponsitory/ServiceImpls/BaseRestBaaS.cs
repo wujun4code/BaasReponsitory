@@ -123,11 +123,11 @@ namespace BaaSReponsitory
             rep = Client.Execute(req);
 #endif
 
-            return ProcessResponseAfterDelete(Id,rep);
+            return ProcessResponseAfterDelete(Id, rep);
         }
 
 
-      
+
 
         public virtual void PostAsync(TEntity entity, Action<TEntity> callback)
         {
@@ -300,7 +300,7 @@ namespace BaaSReponsitory
 #endif
         }
 
-        #endregion 
+        #endregion
 
         #region process request before send request
         public virtual void ProcessClientBeforeSend()
@@ -344,7 +344,7 @@ namespace BaaSReponsitory
             {
                 NullValueHandling = NullValueHandling.Ignore,
             };
-            rtn = JsonConvert.SerializeObject(entity, _jsonSetting);
+            rtn = JsonConvert.SerializeObject(entity, Formatting.Indented, _jsonSetting);
             return rtn;
         }
 
@@ -472,7 +472,7 @@ namespace BaaSReponsitory
 
         public virtual TEntity DeserializerFromResponse(IRestResponse rep)
         {
-           return Deserializer<TEntity>(rep, DefaultDataFormat);
+            return Deserializer<TEntity>(rep, DefaultDataFormat);
         }
 
         public virtual T Deserializer<T>(IRestResponse response, BaaSDataFormat format)
