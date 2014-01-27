@@ -86,13 +86,46 @@ namespace BaaSReponsitory
                                 var cp = new CloudPointer();
                                 cp.__type = "Pointer";
                                 cp.className = cfInfo.PointerTarget;
-                                
-                                var pv = type.GetProperty(cfInfo.PointerValueName);
-                                var pointerId=(string)pv.GetValue(entity);
+
+                                var pv = type.GetProperty(cfInfo.PointerPrimaryKeyValueName);
+                                var pointerId = (string)pv.GetValue(entity);
 
                                 cp.objectId = pointerId;
 
                                 pro.SetValue(entity, cp);
+                            }
+                        }
+                    }
+                }
+                else if (pt == typeof(CloudRelation))
+                {
+                    var data = pro.GetValue(entity);
+                    if (data == null)
+                    {
+                        var cf = pro.GetCustomAttributes(typeof(CloudFiled), true);
+                        if (cf != null)
+                        {
+                            if (cf.Length > 0)
+                            {
+                                var cfInfo = (CloudFiled)cf[0];
+                                var cr = new CloudRelation();
+                                cr.__op = "AddRelation";
+                                cr.objects = new List<CloudPointer>();
+
+                                var pv = type.GetProperty(cfInfo.PointerPrimaryKeyValueName);
+                                var pointers = (List<string>)pv.GetValue(entity);
+
+                                foreach (var p in pointers)
+                                {
+                                    var cp = new CloudPointer();
+                                    cp.__type = "Pointer";
+                                    cp.className = cfInfo.PointerTarget;
+                                    cp.objectId = p;
+                                    cr.objects.Add(cp);
+                                }
+
+
+                                pro.SetValue(entity, cr);
                             }
                         }
                     }
@@ -105,7 +138,7 @@ namespace BaaSReponsitory
         public override TEntity DeserializerFromResponse(IRestResponse rep)
         {
 
-            var rtn= base.DeserializerFromResponse(rep);
+            var rtn = base.DeserializerFromResponse(rep);
 
             var type = typeof(TEntity);
 
@@ -128,9 +161,34 @@ namespace BaaSReponsitory
 
                                 var cp = (CloudPointer)data;
 
-                                var pv = type.GetProperty(cfInfo.PointerValueName);
+                                var pv = type.GetProperty(cfInfo.PointerPrimaryKeyValueName);
 
                                 pv.SetValue(rtn, cp.objectId);
+                            }
+                        }
+                    }
+                }
+                else if (pt == typeof(CloudRelation))
+                {
+                    var data = pro.GetValue(rtn);
+                    if (data != null)
+                    {
+                        var cf = pro.GetCustomAttributes(typeof(CloudFiled), true);
+                        if (cf != null)
+                        {
+                            if (cf.Length > 0)
+                            {
+                                var cfInfo = (CloudFiled)cf[0];
+
+                                var cp = (CloudRelation)data;
+
+                                var pv = type.GetProperty(cfInfo.PointerPrimaryKeyValueName);
+                                var v = new List<string>();
+                                foreach (var o in cp.objects)
+                                {
+                                    v.Add(o.objectId);
+                                }
+                                pv.SetValue(rtn, v);
                             }
                         }
                     }

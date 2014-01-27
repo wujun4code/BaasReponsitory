@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace BaaSReponsitory
 {
-    public abstract class BaseBaaS<TKey, TRootWrapper,TEntity>
-        : IBaaS<TKey, TEntity> where TEntity : class
+    public abstract class BaseBaaS<TKey, TRootWrapper, TEntity>
+        : IBaaS<TKey, TEntity>
+        where TEntity : class
         where TRootWrapper : JsonWrapper<TKey>
     {
         public BaseRestBaaS<TKey, TRootWrapper, TEntity> RestService { get; set; }
@@ -20,7 +21,7 @@ namespace BaaSReponsitory
             return rtn;
         }
 
-         public virtual TEntity Get(TKey Id)
+        public virtual TEntity Get(TKey Id)
         {
             return RestService.Get(Id);
         }
@@ -33,8 +34,8 @@ namespace BaaSReponsitory
         public TEntity Update(TEntity entity)
         {
             var key = RestService.GetEntityId<TKey>(entity);
-            
-            return RestService.Put(key,entity);
+
+            return RestService.Put(key, entity);
         }
 
         public bool Delete(TEntity entity)

@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaaSReponsitory.DataContracts
+namespace BaaSReponsitory
 {
     public class CloudRelation
     {
-        public string __type { get; set; }
-
-        public string className { get; set; }
+        public string __op { get; set; }
 
         public List<CloudPointer> objects { get; set; }
     }

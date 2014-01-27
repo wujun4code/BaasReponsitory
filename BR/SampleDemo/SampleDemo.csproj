@@ -67,6 +67,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Boy.cs" />
+    <Compile Include="Girl.cs" />
+    <Compile Include="GirlType.cs" />
     <Compile Include="TestObject.cs" />
     <Compile Include="CommonTool.cs" />
     <Compile Include="Program.cs" />

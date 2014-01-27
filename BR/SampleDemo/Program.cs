@@ -19,7 +19,7 @@ namespace SampleDemo
                 StartTime = DateTime.Now.AddHours(1),
                 Title = "say hello to BR",
                 Status = 0,
-                _typeId = "52df641de4b01b525fce6276",
+
                 From = "pc"
             };
 
@@ -35,13 +35,46 @@ namespace SampleDemo
 
             #region demo
 
-            var testId = "52df69b8e4b01b525fce632c";
 
-            var testresult = ss.Get<string, Todo>(testId);
+            var ElizabethType_getById = ss.Get<string, GirlType>("52e6328de4b0f8de283adc77");
 
-            Todo newItem = CreateNow();
+            var neal = new Boy()
+            {
+                FullName = "Neal Caffery",
+                NickName = "Neal",
+            };
+            neal = ss.Add<string, Boy>(neal);
 
-            ss.Add<string, Todo>(newItem);
+            var SaraType = new GirlType()
+            {
+                _focusBoyIds = new List<string>(),
+                TypeName = "Sexy",
+            };
+
+            SaraType._focusBoyIds.Add(neal.Id);
+            SaraType = ss.Add<string, GirlType>(SaraType);
+
+            var peter = new Boy()
+            {
+                FullName = "Peter Burke",
+                NickName = "Peter"
+            };
+
+            peter = ss.Add<string, Boy>(peter);
+
+            var ElizabethType = new GirlType()
+            {
+                _focusBoyIds = new List<string>(),
+                TypeName = "Smart",
+            };
+
+
+
+            ElizabethType._focusBoyIds.Add(peter.Id);
+            ElizabethType = ss.Add<string, GirlType>(ElizabethType);
+            
+
+
 
             #endregion
 
@@ -133,8 +166,12 @@ namespace SampleDemo
             //ss.Update<string, TestObject>(put_obj_a);
             #endregion
 
+            #region relation demo
+
+            #endregion
 
             #region for more demos add later...
+
             #endregion
 
             Console.ReadKey();

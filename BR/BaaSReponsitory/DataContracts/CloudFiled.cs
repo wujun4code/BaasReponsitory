@@ -16,8 +16,9 @@ namespace BaaSReponsitory
 
         public string PointerTarget { get; set; }
 
-        public string PointerValueName { get; set; }
+        public string PointerPrimaryKeyValueName { get; set; }
 
+        public string PointerObjctValueName { get; set; }
 
     }
 }
