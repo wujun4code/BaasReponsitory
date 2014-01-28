@@ -58,6 +58,8 @@ namespace BaaSReponsitory
 
                 var types = asse.GetTypes().AsEnumerable();
 
+                var singleType = asse.GetType(typeName);
+
                 Type targetType = null;
 
                 foreach (var ty in types)

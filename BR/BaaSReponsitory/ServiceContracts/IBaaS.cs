@@ -25,7 +25,14 @@ namespace BaaSReponsitory
 
         TEntity Update(TEntity entity);
 
+        TEntity Update(TEntity entity, object updateData);
+
+        TEntity Update(TEntity entity, string updateString);
+
         bool Delete(TEntity entity);
+
+        IQueryable<TEntity> GetByFilter(object filterData);
+
 #endif
         void Add(TEntity entity, Action<TEntity> callback);
 

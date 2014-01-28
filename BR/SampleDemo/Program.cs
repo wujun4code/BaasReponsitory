@@ -36,6 +36,26 @@ namespace SampleDemo
             #region demo
 
 
+            var el = new GirlType() { Id = "52e6328de4b0f8de283adc77", FocusdBoys = new CloudRelationX<GirlType, Boy>() {  RelatedObjects=new List<Boy>()} };
+            el.FocusdBoys.LoadRelatedObject(el);
+            //el.FocusdBoys.LoadRelatedObject(el);
+            el.FocusdBoys.RelatedObjects.Add(new Boy() { Id = "52e63283e4b0f8de283adc72" });
+            el.FocusdBoys.Push(el);
+
+            var xcv = new { objectId = "52e63283e4b0f8de283adc72" };
+            AVOSRelationFiter arf = new AVOSRelationFiter();
+            arf.key = "FocusdBoys";
+            arf.relatedTo = new AVOSRelatedTo()
+            {
+                className = "GirlType",
+                __type = "Pointer",
+                objectId = "52e6328de4b0f8de283adc77"
+            };
+         
+            AVOSRelatedToRootWrapper artro = new AVOSRelatedToRootWrapper();
+            artro.relatedTo = arf;
+            var boys = ss.GetByFilter<string, Boy>(artro);
+
             var ElizabethType_getById = ss.Get<string, GirlType>("52e6328de4b0f8de283adc77");
 
             var neal = new Boy()
@@ -47,11 +67,10 @@ namespace SampleDemo
 
             var SaraType = new GirlType()
             {
-                _focusBoyIds = new List<string>(),
+            
                 TypeName = "Sexy",
             };
 
-            SaraType._focusBoyIds.Add(neal.Id);
             SaraType = ss.Add<string, GirlType>(SaraType);
 
             var peter = new Boy()
@@ -64,15 +83,15 @@ namespace SampleDemo
 
             var ElizabethType = new GirlType()
             {
-                _focusBoyIds = new List<string>(),
+              
                 TypeName = "Smart",
             };
 
 
 
-            ElizabethType._focusBoyIds.Add(peter.Id);
+         
             ElizabethType = ss.Add<string, GirlType>(ElizabethType);
-            
+
 
 
 

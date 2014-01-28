@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BaaSReponsitory
 {
-    public class ParseRest<TEntity> : BaseRestBaaS<string, AVOSCloudJsonWrapper, TEntity>
+    public class ParseRest<TEntity> : BaseRestBaaS<string, AVOSJsonWrapper, TEntity>
          where TEntity : class
     {
         public ParseRest()

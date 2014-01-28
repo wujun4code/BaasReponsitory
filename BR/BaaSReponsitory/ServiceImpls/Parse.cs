@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BaaSReponsitory
 {
-    public class Parse<TEntity> : BaseBaaS<string, AVOSCloudJsonWrapper, TEntity>, IBaaS<string, TEntity> where TEntity : class
+    public class Parse<TEntity> : BaseBaaS<string, AVOSJsonWrapper, TEntity>, IBaaS<string, TEntity> where TEntity : class
     {
         public Parse()
             : base()

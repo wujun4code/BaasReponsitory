@@ -20,6 +20,8 @@ namespace BaaSReponsitory
         TEntity Put(TKey Id,TEntity entity);
 
         bool Delete(TKey Id);
+
+        IQueryable<TEntity> GetByFilter(object filterData);
 #endif
 
         void PostAsync(TEntity entity,Action<TEntity> callback);
@@ -31,11 +33,6 @@ namespace BaaSReponsitory
         void Put(TKey Id,TEntity entity, Action<TEntity> callback);
 
         void Delete(TKey Id, Action<bool> callback);
-        //TEntity Put<TKey, TEntity>(TKey Id,TEntity entity);
-
-        //IList<TEntity> GetAll<TEntity>();
-
-        //bool Delete<TKey>(TKey Id);
 
     }
 

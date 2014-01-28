@@ -111,6 +111,25 @@ namespace BaaSReponsitory
             return ProcessResponseAfterPut(entity, rep);
         }
 
+        public TEntity Put(TKey Id,TEntity entity, object updateData)
+        {
+            string updateString=JsonConvert.SerializeObject(updateData);
+
+            return this.Put(Id, entity,updateString);
+
+        }
+        public TEntity Put(TKey Id,TEntity entity, string updateString)
+        {
+            ProcessClientBeforeSend();
+
+            var req = CreatePutRequestByUpdatString(Id, updateString);
+
+            IRestResponse rep = null;
+#if FRAMEWORK
+            rep = Client.Execute(req);
+#endif
+            return ProcessResponseAfterPut(entity, rep);
+        }
 
         public bool Delete(TKey Id)
         {
@@ -126,6 +145,17 @@ namespace BaaSReponsitory
             return ProcessResponseAfterDelete(Id, rep);
         }
 
+        public IQueryable<TEntity> GetByFilter(object filterData)
+        {
+            ProcessClientBeforeSend();
+            var req = CreateGetByFilterRequest(filterData);
+            IRestResponse rep = null;
+#if FRAMEWORK
+            rep = Client.Execute(req);
+#endif
+            
+            return GetQueryableByResponse(rep);
+        }
 
 
 
@@ -276,6 +306,23 @@ namespace BaaSReponsitory
             return req;
         }
 
+        public virtual IRestRequest CreatePutRequestByUpdatString(TKey Id, string updateString)
+        {
+            var req = new RestRequest();
+
+            req.Method = Method.PUT;
+
+            req.Resource = CreateResource() + "/" + Id;
+
+            SetRequest(req);
+
+            var BodyDataString = updateString;
+
+            req.AddParameter("application/json", BodyDataString, ParameterType.RequestBody);
+
+            return req;
+        }
+
         public virtual IRestRequest CreateDeleteRequest(TKey Id)
         {
             var req = new RestRequest();
@@ -288,6 +335,28 @@ namespace BaaSReponsitory
 
             return req;
         }
+
+        public virtual IRestRequest CreateGetByFilterRequest(object filterData)
+        {
+            var req = new RestRequest();
+
+            req.Resource = CreateResource();
+
+            req.Method = Method.GET;
+
+            //var filterString = req.JsonSerializer.Serialize(filterData);
+            var filterString = JsonConvert.SerializeObject(filterData);
+
+            req.AddHeader("Content-Type", "data-urlencode");
+
+            req.AddParameter("where", filterString);
+
+            //SetRequest(req);
+            SetNetCredentials(req);
+
+            return req;
+        }
+
 
         public virtual void SetRequest(IRestRequest req)
         {
@@ -469,6 +538,7 @@ namespace BaaSReponsitory
             }
             return rtn;
         }
+
 
         public virtual TEntity DeserializerFromResponse(IRestResponse rep)
         {

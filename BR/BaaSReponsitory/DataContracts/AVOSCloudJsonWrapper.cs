@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BaaSReponsitory
 {
-    public class AVOSCloudJsonWrapper : JsonWrapper<string>
+    public class AVOSJsonWrapper : JsonWrapper<string>
     {
         public override string PrimaryKey
         {

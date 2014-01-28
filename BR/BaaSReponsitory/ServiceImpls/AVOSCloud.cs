@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BaaSReponsitory
 {
-    public class AVOSCloud<TEntity> : BaseBaaS<string, AVOSCloudJsonWrapper, TEntity>, IBaaS<string, TEntity> where TEntity : class
+    public class AVOSCloud<TEntity> : BaseBaaS<string, AVOSJsonWrapper, TEntity>, IBaaS<string, TEntity> where TEntity : class
     {
 
         public AVOSCloud()

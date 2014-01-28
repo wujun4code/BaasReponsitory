@@ -14,4 +14,9 @@ namespace BaaSReponsitory
 
         public string objectId { get; set; }
     }
+
+    public class CloudPointerX<T>
+    {
+
+    }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BaaSReponsitory
 {
-    public class AVOSCloudRest<TEntity> : BaseRestBaaS<string, AVOSCloudJsonWrapper, TEntity>
+    public class AVOSCloudRest<TEntity> : BaseRestBaaS<string, AVOSJsonWrapper, TEntity>
         where TEntity : class
     {
         public AVOSCloudRest()
@@ -130,6 +130,7 @@ namespace BaaSReponsitory
                         }
                     }
                 }
+               
             }
 
             return base.SerializeEntityToPost(entity);

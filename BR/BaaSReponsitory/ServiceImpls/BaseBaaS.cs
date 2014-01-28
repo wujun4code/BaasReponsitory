@@ -38,6 +38,20 @@ namespace BaaSReponsitory
             return RestService.Put(key, entity);
         }
 
+        public TEntity Update(TEntity entity,object updateData)
+        {
+            var key = RestService.GetEntityId<TKey>(entity);
+
+            return RestService.Put(key,entity, updateData);
+        }
+
+        public TEntity Update(TEntity entity, string updateString)
+        {
+            var key = RestService.GetEntityId<TKey>(entity);
+
+            return RestService.Put(key,entity, updateString);
+        }
+
         public bool Delete(TEntity entity)
         {
             var key = RestService.GetEntityId<TKey>(entity);
@@ -45,6 +59,10 @@ namespace BaaSReponsitory
             return RestService.Delete(key);
         }
 
+        public IQueryable<TEntity> GetByFilter(object filterData)
+        {
+            return RestService.GetByFilter(filterData);
+        }
 #endif
 
         public virtual void Add(TEntity entity, Action<TEntity> callback)

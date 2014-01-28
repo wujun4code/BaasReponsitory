@@ -18,13 +18,7 @@ namespace SampleDemo
         [DataMember(Name = "TypeName")]
         public string TypeName { get; set; }
 
-        [CloudFiled(IsPointer = true, PointerTarget = "Boy", PointerPrimaryKeyValueName = "_focusBoyIds", PointerObjctValueName = "FocusdBoys")]
-        [DataMember(Name = "FocusdBoys")]
-        public CloudRelation _focusdBoys { get; set; }
-
-        public List<Boy> FocusdBoys { get; set; }
-        public List<string> _focusBoyIds { get; set; }
-
+        public CloudRelationX<GirlType, Boy> FocusdBoys { get; set; }
 
 
         [CloudFiled(IsPointer = true, PointerTarget = "Girl", PointerPrimaryKeyValueName = "_girlInTypeIds", PointerObjctValueName = "GirlsInType")]

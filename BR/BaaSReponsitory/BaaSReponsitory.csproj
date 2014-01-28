@@ -48,6 +48,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,6 +56,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContracts\AVOSRelationFiter.cs" />
+    <Compile Include="DataContracts\CloudOpponents.cs" />
     <Compile Include="DataContracts\CloudPointer.cs" />
     <Compile Include="DataContracts\CloudRelation.cs" />
     <Compile Include="ServiceContracts\IInterfaceFactory.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="ServiceImpls\BssSProvider.cs" />
     <Compile Include="DataContracts\CloudFiled.cs" />
     <Compile Include="DataContracts\CloudObject.cs" />
+    <Compile Include="ServiceImpls\CloudRelationQuery.cs" />
     <Compile Include="ServiceImpls\Parse.cs" />
     <Compile Include="ServiceImpls\ParseRest.cs" />
     <Compile Include="ServiceImpls\SimpleFactory.cs" />

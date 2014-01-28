@@ -21,7 +21,13 @@ namespace BaaSReponsitory
 
         TEntity Update<TKey, TEntity>(TEntity entity) where TEntity : class;
 
+        TEntity Update<TKey, TEntity>(TEntity entity,object updateData) where TEntity : class;
+
+        TEntity Update<TKey, TEntity>(TEntity entity, string updateString) where TEntity : class;
+
         bool Delete<TKey, TEntity>(TEntity entity) where TEntity : class;
+
+        IQueryable<TEntity> GetByFilter<TKey, TEntity>(object filterData) where TEntity : class;
 
 #endif
         void Add<TKey, TEntity>(TEntity entity, Action<TEntity> callback) where TEntity : class;

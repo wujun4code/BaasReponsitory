@@ -51,9 +51,24 @@ namespace BaaSReponsitory
             return this.ReponsitoryService.Create<TKey, TEntity>().Update(entity);
         }
 
+        public TEntity Update<TKey, TEntity>(TEntity entity,object updateData) where TEntity : class
+        {
+            return this.ReponsitoryService.Create<TKey, TEntity>().Update(entity,updateData);
+        }
+
+        public TEntity Update<TKey, TEntity>(TEntity entity, string updateString) where TEntity : class
+        {
+            return this.ReponsitoryService.Create<TKey, TEntity>().Update(entity, updateString);
+        }
+
         public bool Delete<TKey, TEntity>(TEntity entity) where TEntity : class
         {
             return this.ReponsitoryService.Create<TKey, TEntity>().Delete(entity);
+        }
+
+        public IQueryable<TEntity> GetByFilter<TKey, TEntity>(object filterData) where TEntity : class
+        {
+            return this.ReponsitoryService.Create<TKey, TEntity>().GetByFilter(filterData);
         }
 #endif
         public void Add<TKey, TEntity>(TEntity entity, Action<TEntity> callback) where TEntity : class
