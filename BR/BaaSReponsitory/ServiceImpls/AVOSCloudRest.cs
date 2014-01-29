@@ -83,49 +83,21 @@ namespace BaaSReponsitory
                             if (cf.Length > 0)
                             {
                                 var cfInfo = (CloudFiled)cf[0];
-                                var cp = new CloudPointer();
-                                cp.__type = "Pointer";
-                                cp.className = cfInfo.PointerTarget;
-
-                                var pv = type.GetProperty(cfInfo.PointerPrimaryKeyValueName);
-                                var pointerId = (string)pv.GetValue(entity);
-
-                                cp.objectId = pointerId;
-
-                                pro.SetValue(entity, cp);
-                            }
-                        }
-                    }
-                }
-                else if (pt == typeof(CloudRelation))
-                {
-                    var data = pro.GetValue(entity);
-                    if (data == null)
-                    {
-                        var cf = pro.GetCustomAttributes(typeof(CloudFiled), true);
-                        if (cf != null)
-                        {
-                            if (cf.Length > 0)
-                            {
-                                var cfInfo = (CloudFiled)cf[0];
-                                var cr = new CloudRelation();
-                                cr.__op = "AddRelation";
-                                cr.objects = new List<CloudPointer>();
-
-                                var pv = type.GetProperty(cfInfo.PointerPrimaryKeyValueName);
-                                var pointers = (List<string>)pv.GetValue(entity);
-
-                                foreach (var p in pointers)
+                                if (cfInfo.RelationType == CloudFiledType.ManyToOne)
                                 {
-                                    var cp = new CloudPointer();
-                                    cp.__type = "Pointer";
-                                    cp.className = cfInfo.PointerTarget;
-                                    cp.objectId = p;
-                                    cr.objects.Add(cp);
+ 
                                 }
 
+                                //var cp = new CloudPointer();
+                                //cp.__type = "Pointer";
+                                //cp.className = cfInfo.PointerTarget;
 
-                                pro.SetValue(entity, cr);
+                                //var pv = type.GetProperty(cfInfo.PointerPrimaryKeyValueName);
+                                //var pointerId = (string)pv.GetValue(entity);
+
+                                //cp.objectId = pointerId;
+
+                                //pro.SetValue(entity, cp);
                             }
                         }
                     }
@@ -162,7 +134,7 @@ namespace BaaSReponsitory
 
                                 var cp = (CloudPointer)data;
 
-                                var pv = type.GetProperty(cfInfo.PointerPrimaryKeyValueName);
+                                var pv = type.GetProperty("xxx");
 
                                 pv.SetValue(rtn, cp.objectId);
                             }
@@ -183,7 +155,7 @@ namespace BaaSReponsitory
 
                                 var cp = (CloudRelation)data;
 
-                                var pv = type.GetProperty(cfInfo.PointerPrimaryKeyValueName);
+                                var pv = type.GetProperty("xxx");
                                 var v = new List<string>();
                                 foreach (var o in cp.objects)
                                 {

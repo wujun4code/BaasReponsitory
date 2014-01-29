@@ -67,6 +67,14 @@ namespace BaaSReponsitory
 
         }
 
+        public virtual void PostAndPushRelation(TEntity entity, Action<TEntity> pushRelation)
+        {
+            var after_entity = Post(entity);
+
+            pushRelation(after_entity);
+
+        }
+
         public virtual TEntity Get(TKey Id)
         {
             ProcessClientBeforeSend();
@@ -111,14 +119,14 @@ namespace BaaSReponsitory
             return ProcessResponseAfterPut(entity, rep);
         }
 
-        public TEntity Put(TKey Id,TEntity entity, object updateData)
+        public TEntity Put(TKey Id, TEntity entity, object updateData)
         {
-            string updateString=JsonConvert.SerializeObject(updateData);
+            string updateString = JsonConvert.SerializeObject(updateData);
 
-            return this.Put(Id, entity,updateString);
+            return this.Put(Id, entity, updateString);
 
         }
-        public TEntity Put(TKey Id,TEntity entity, string updateString)
+        public TEntity Put(TKey Id, TEntity entity, string updateString)
         {
             ProcessClientBeforeSend();
 
@@ -153,7 +161,7 @@ namespace BaaSReponsitory
 #if FRAMEWORK
             rep = Client.Execute(req);
 #endif
-            
+
             return GetQueryableByResponse(rep);
         }
 
@@ -494,6 +502,7 @@ namespace BaaSReponsitory
             TKey objectId = GetObjectIdByResponseAfterPost(rep);
 
             SetTEntityId(entity, objectId);
+
 
             return entity;
         }

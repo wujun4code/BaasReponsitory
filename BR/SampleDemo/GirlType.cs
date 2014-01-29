@@ -18,15 +18,11 @@ namespace SampleDemo
         [DataMember(Name = "TypeName")]
         public string TypeName { get; set; }
 
-        public CloudRelationX<GirlType, Boy> FocusdBoys { get; set; }
+        [CloudFiled(ColumnName = "FocusdBoys", RelationType = CloudFiledType.OneToMany)]
+        public List<Boy> FocusdBoys { get; set; }
 
-
-        [CloudFiled(IsPointer = true, PointerTarget = "Girl", PointerPrimaryKeyValueName = "_girlInTypeIds", PointerObjctValueName = "GirlsInType")]
-        [DataMember(Name = "GirlsInType")]
-        public CloudRelation _girlsInType { get; set; }
-
-        public List<Girl> GirlsInType { get; set; }
-        public List<string> _girlInTypeIds { get; set; }
+        [CloudFiled(ColumnName = "GirlsMatchType", RelationType = CloudFiledType.OneToMany)]
+        public List<Girl> GirlsMatchType { get; set; }
 
     }
 }

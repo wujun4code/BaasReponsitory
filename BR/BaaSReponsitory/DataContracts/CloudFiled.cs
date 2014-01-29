@@ -12,13 +12,15 @@ namespace BaaSReponsitory
 
         public bool IsPrimaryKey { get; set; }
 
-        public bool IsPointer { get; set; }
+        public CloudFiledType RelationType { get; set; }
 
-        public string PointerTarget { get; set; }
+    }
 
-        public string PointerPrimaryKeyValueName { get; set; }
-
-        public string PointerObjctValueName { get; set; }
-
+    public enum CloudFiledType : int
+    {
+        GeneralField = 0,
+        OneToOne = 101,//Pointer each other
+        OneToMany = 102,//Relation
+        ManyToOne = 103,//Pointer
     }
 }

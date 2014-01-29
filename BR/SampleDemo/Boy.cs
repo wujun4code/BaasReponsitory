@@ -21,5 +21,7 @@ namespace SampleDemo
         [DataMember(Name = "NickName")]
         public string NickName { get; set; }
 
+        [CloudFiled(ColumnName = "FocusdGirlType", RelationType = CloudFiledType.OneToMany)]
+        public List<GirlType> FocusdGirlType { get; set; }
     }
 }

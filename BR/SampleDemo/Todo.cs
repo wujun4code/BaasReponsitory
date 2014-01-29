@@ -46,7 +46,7 @@ namespace SampleDemo
         /// PointerTarget define the pointer to a class in server.
         /// PointerValueName is a TodoType Id.
         /// </summary>
-        [CloudFiled(IsPointer = true, PointerTarget = "TodoType", PointerPrimaryKeyValueName = "_typeId", PointerObjctValueName = "PointedTodoType")]
+        [CloudFiled]
         [DataMember(Name = "typeId")]
         public CloudPointer TypeId { get; set; }
 

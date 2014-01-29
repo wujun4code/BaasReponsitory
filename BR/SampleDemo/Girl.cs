@@ -21,6 +21,8 @@ namespace SampleDemo
         [DataMember(Name = "NickName")]
         public string NickName { get; set; }
 
+        [CloudFiled(ColumnName = "MyStyle", RelationType = CloudFiledType.ManyToOne)]
+        public GirlType MyStyle { get; set; }
 
     }
 }

@@ -61,6 +61,7 @@
     <Compile Include="DataContracts\CloudPointer.cs" />
     <Compile Include="DataContracts\CloudRelation.cs" />
     <Compile Include="ServiceContracts\IInterfaceFactory.cs" />
+    <Compile Include="ServiceContracts\IRelationX.cs" />
     <Compile Include="ServiceImpls\AVOSCloud.cs" />
     <Compile Include="DataContracts\AVOSCloudJsonWrapper.cs" />
     <Compile Include="ServiceImpls\AVOSCloudRest.cs" />

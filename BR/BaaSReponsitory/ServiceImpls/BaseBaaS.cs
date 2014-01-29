@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -14,10 +15,56 @@ namespace BaaSReponsitory
     {
         public BaseRestBaaS<TKey, TRootWrapper, TEntity> RestService { get; set; }
 #if FRAMEWORK
+
+        public virtual void AnalyzeTEntity(TEntity entity)
+        {
+            var s_type = typeof(TEntity);
+
+            var properties = s_type.GetProperties();
+
+            foreach (var pro in properties)
+            {
+                var pt = pro.PropertyType;
+                var cf = pro.GetCustomAttributes(typeof(CloudFiled), true);
+                {
+                    if (cf != null)
+                    {
+                        if (cf.Length > 0)
+                        {
+                            var cf_info = (CloudFiled)cf[0];
+                            if (!cf_info.IsPrimaryKey)
+                            {
+                                if (cf_info.RelationType == CloudFiledType.OneToMany)
+                                {
+                                    var t_type = pt.GetGenericArguments()[0];
+                                    Type[] CloudRelationXParams = new Type[] { t_type };
+                                    Type targetType = typeof(CloudRelationX<>);
+
+                                    Type constructed = targetType.MakeGenericType(CloudRelationXParams);
+
+                                    var cloudRelation = (IRelationX)Activator.CreateInstance(constructed);
+
+                                    var targets = (IEnumerable)pro.GetValue(entity);
+
+                                    if (targets != null)
+                                    {
+                                        string updateString = cloudRelation.AddReltion<TEntity>(entity, cf_info.ColumnName, targets);
+
+                                        this.Update(entity, updateString);
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public virtual TEntity Add(TEntity entity)
         {
             var rtn = RestService.Post(entity);
-
+            AnalyzeTEntity(rtn);
             return rtn;
         }
 

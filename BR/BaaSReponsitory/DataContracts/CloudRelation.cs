@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -19,14 +20,21 @@ namespace BaaSReponsitory
         public string className { get; set; }
     }
 
-    public class CloudRelationX<S, T>
-        where S : class
+    public class CloudRelationX<T> : IRelationX
         where T : class
     {
         public CloudRelationX()
         {
 
         }
+        #region interface method impls
+
+        public string AddReltion<S>(S source, string ColumnName, IEnumerable targets)
+        {
+            return AddRelation<S>(source, ColumnName, targets);
+        }
+
+        #endregion
 
         public List<T> RelatedObjects { get; set; }
 
@@ -47,7 +55,7 @@ namespace BaaSReponsitory
             }
         }
 
-        public List<T> LoadRelatedObject(S source)
+        public List<T> LoadRelatedObject<S>(S source)
         {
 
             var s_type = typeof(S);
@@ -57,7 +65,7 @@ namespace BaaSReponsitory
             foreach (var pro in properties)
             {
                 var pt = pro.PropertyType;
-                if (pt == typeof(CloudRelationX<S, T>))
+                if (pt == typeof(CloudRelationX<T>))
                 {
                     s_column_key = pro.Name;
                 }
@@ -96,44 +104,42 @@ namespace BaaSReponsitory
             return rtnQuery.ToList();
         }
 
-        public void Push(S source)
+        public string Push<S>(S source, string ColumnName)
         {
-            DoRelation("AddRelation", source, this.RelatedObjects);
+            return DoRelation("AddRelation", source, ColumnName, this.RelatedObjects);
+        }
+        public string AddRelation<S>(S source, string ColumnName, IEnumerable connects)
+        {
+            return DoRelation("AddRelation", source, ColumnName, connects);
+        }
+        public string RemoveRelation<S>(S source, string ColumnName, IEnumerable disconnects)
+        {
+            return DoRelation("RemoveRelation", source, ColumnName, disconnects);
         }
 
-        public void RemoveRelation(S source, IList<T> disconnects)
-        {
-            DoRelation("RemoveRelation", source, disconnects);
-        }
-
-        public void DoRelation(string OpString, S source, IList<T> tergets)
+        public string DoRelation<S>(string OpString, S source, string ColumnName, IEnumerable tergets)
         {
             var t_type = typeof(T);
             var s_type = typeof(S);
-            var s_column_key = "";
+            var s_column_key = ColumnName;
             var s_id = "";
             var s_properties = s_type.GetProperties();
             foreach (var pro in s_properties)
             {
                 var pt = pro.PropertyType;
-                if (pt == typeof(CloudRelationX<S, T>))
-                {
-                    s_column_key = pro.Name;
-                }
-                else
-                {
-                    var cloud_fields = pro.GetCustomAttributes(typeof(CloudFiled), true);
 
-                    if (cloud_fields.Length > 0)
+                var cloud_fields = pro.GetCustomAttributes(typeof(CloudFiled), true);
+
+                if (cloud_fields.Length > 0)
+                {
+                    var cloud_field = cloud_fields[0];
+
+                    if (((CloudFiled)cloud_field).IsPrimaryKey)
                     {
-                        var cloud_field = cloud_fields[0];
-
-                        if (((CloudFiled)cloud_field).IsPrimaryKey)
-                        {
-                            s_id = (string)pro.GetValue(source);
-                        }
+                        s_id = (string)pro.GetValue(source);
                     }
                 }
+
             }
 
             PropertyInfo target_pro = CloudObject.GetPrimaryKeyProperty<T>();
@@ -148,7 +154,16 @@ namespace BaaSReponsitory
                 var cp = new AVOSRelatedTo();
                 cp.__type = "Pointer";
                 cp.className = t_name;
-                cp.objectId = (string)target_pro.GetValue(ro);
+                var ro_id = target_pro.GetValue(ro);
+                if (ro_id != null)
+                {
+                    cp.objectId = (string)ro_id;
+                }
+                else
+                {
+                    var new_ro = this.BaaSService.Add<string, T>((T)ro);
+                    cp.objectId = (string)target_pro.GetValue(new_ro);
+                }
                 corw.ColumnNameX.objects.Add(cp);
             }
             //var dm = CloudObject.GetDataMember<CloudOpponentsRootWrapper>("opponents");
@@ -156,10 +171,12 @@ namespace BaaSReponsitory
             //dm.Name = s_column_key;
             string corwString = JsonConvert.SerializeObject(corw);
             corwString = corwString.Replace("ColumnNameX", s_column_key);
-            this.BaaSService.Update<string, S>(source, corwString);
+            //this.BaaSService.Update<string, S>(source, corwString);
+
+            return corwString;
         }
 
-        public void LoadRelatedObject(S source, Action<IQueryable<T>> OnSuccess)
+        public void LoadRelatedObject<S>(S source, Action<IQueryable<T>> OnSuccess)
         {
 
         }
