@@ -35,19 +35,30 @@ namespace SampleDemo
 
             #region demo
 
-            var lovely_type = new GirlType()
+
+            var Alex = new Girl()
             {
-                FocusdBoys = new List<Boy>(),
-                TypeName = "Lovely",
+                FullName = "Alexandra Hunter",
+                MyStyle = new GirlType() { TypeName = "Nimble" },
             };
 
-            lovely_type.FocusdBoys.Add(new Boy()
-            {
-                FullName = "Barack Obama",
-                NickName = "Obama",
-            });
+            ss.Add<string, Girl>(Alex);
 
-            lovely_type = ss.Add<string, GirlType>(lovely_type);
+            var new_Alex = ss.Get<string, Girl>(Alex.Id);
+
+            //var lovely_type = new GirlType()
+            //{
+            //    FocusdBoys = new List<Boy>(),
+            //    TypeName = "Lovely",
+            //};
+
+            //lovely_type.FocusdBoys.Add(new Boy()
+            //{
+            //    FullName = "Barack Obama",
+            //    NickName = "Obama",
+            //});
+
+            //lovely_type = ss.Add<string, GirlType>(lovely_type);
 
             //var sexy_type = ss.GetByFilter<string, GirlType>(new { TypeName = "Sexy" }).FirstOrDefault();
 

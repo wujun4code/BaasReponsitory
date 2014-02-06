@@ -12,6 +12,8 @@ namespace BaaSReponsitory
 
         public bool IsPrimaryKey { get; set; }
 
+        public bool IsRelation { get; set; }
+
         public CloudFiledType RelationType { get; set; }
 
     }

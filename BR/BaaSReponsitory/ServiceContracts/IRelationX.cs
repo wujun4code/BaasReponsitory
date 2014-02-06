@@ -9,7 +9,14 @@ namespace BaaSReponsitory
 {
     public interface IRelationX
     {
+        
+#if FRAMEWORK
+        string AddReltionOneToMany<S>(S source,string ColumnName, IEnumerable targets);
 
-        string AddReltion<S>(S source,string ColumnName, IEnumerable targets);
+        string AddRelationManyToOne<S>(S source, string ColumnName,object target);
+        
+#endif
+
+        
     }
 }

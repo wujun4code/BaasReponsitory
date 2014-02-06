@@ -141,7 +141,7 @@ namespace BaaSReponsitory
                         }
                     }
                 }
-                else if (pt == typeof(CloudRelation))
+                else if (pt == typeof(CloudRelationAVOSImpl))
                 {
                     var data = pro.GetValue(rtn);
                     if (data != null)
@@ -151,17 +151,17 @@ namespace BaaSReponsitory
                         {
                             if (cf.Length > 0)
                             {
-                                var cfInfo = (CloudFiled)cf[0];
+                                //var cfInfo = (CloudFiled)cf[0];
 
-                                var cp = (CloudRelation)data;
+                                //var cp = (CloudRelation)data;
 
-                                var pv = type.GetProperty("xxx");
-                                var v = new List<string>();
-                                foreach (var o in cp.objects)
-                                {
-                                    v.Add(o.objectId);
-                                }
-                                pv.SetValue(rtn, v);
+                                //var pv = type.GetProperty("xxx");
+                                //var v = new List<string>();
+                                //foreach (var o in cp.objects)
+                                //{
+                                //    v.Add(o.objectId);
+                                //}
+                                //pv.SetValue(rtn, v);
                             }
                         }
                     }

@@ -21,7 +21,7 @@ namespace SampleDemo
         [CloudFiled(ColumnName = "FocusdBoys", RelationType = CloudFiledType.OneToMany)]
         public List<Boy> FocusdBoys { get; set; }
 
-        [CloudFiled(ColumnName = "GirlsMatchType", RelationType = CloudFiledType.OneToMany)]
+        [CloudFiled(ColumnName = "GirlsMatchType", IsRelation = true, RelationType = CloudFiledType.OneToMany)]
         public List<Girl> GirlsMatchType { get; set; }
 
     }

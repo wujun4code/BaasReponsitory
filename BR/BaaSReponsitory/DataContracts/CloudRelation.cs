@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BaaSReponsitory
 {
-    public class CloudRelation
+    public class CloudRelationAVOSImpl
     {
         public string __op { get; set; }
 
@@ -27,16 +27,6 @@ namespace BaaSReponsitory
         {
 
         }
-        #region interface method impls
-
-        public string AddReltion<S>(S source, string ColumnName, IEnumerable targets)
-        {
-            return AddRelation<S>(source, ColumnName, targets);
-        }
-
-        #endregion
-
-        public List<T> RelatedObjects { get; set; }
 
         private IBaaSService _baaSService;
         public IBaaSService BaaSService
@@ -54,6 +44,23 @@ namespace BaaSReponsitory
                 _baaSService = value;
             }
         }
+#if FRAMEWORK
+        #region interface method impls
+
+        public string AddReltionOneToMany<S>(S source, string ColumnName, IEnumerable targets)
+        {
+            return AddRelation<S>(source, ColumnName, targets);
+        }
+        public string AddRelationManyToOne<S>(S source, string ColumnName, object target)
+        {
+            return DoPointer(source, ColumnName, target);
+        }
+
+        #endregion
+
+        public List<T> RelatedObjects { get; set; }
+
+        public T PointerObject { get; set; }
 
         public List<T> LoadRelatedObject<S>(S source)
         {
@@ -103,7 +110,6 @@ namespace BaaSReponsitory
             RelatedObjects = rtnQuery.ToList();
             return rtnQuery.ToList();
         }
-
         public string Push<S>(S source, string ColumnName)
         {
             return DoRelation("AddRelation", source, ColumnName, this.RelatedObjects);
@@ -115,6 +121,32 @@ namespace BaaSReponsitory
         public string RemoveRelation<S>(S source, string ColumnName, IEnumerable disconnects)
         {
             return DoRelation("RemoveRelation", source, ColumnName, disconnects);
+        }
+
+        public string DoPointer<S>(S source, string ColumnName, object target)
+        {
+            var t_type = typeof(T);
+            PropertyInfo target_pro = CloudObject.GetPrimaryKeyProperty<T>();
+            var t_name = t_type.Name;
+            var root = new CloudPointerRootWrapper();
+            var cp = new CloudPointer();
+            cp.__type = "Pointer";
+            cp.className = t_name;
+
+            var ro_id = target_pro.GetValue(target);
+            if (ro_id != null)
+            {
+                cp.objectId = (string)ro_id;
+            }
+            else
+            {
+                var new_ro = this.BaaSService.Add<string, T>((T)target);
+                cp.objectId = (string)target_pro.GetValue(new_ro);
+            }
+            root.ColumnNameX = cp;
+            string rtn = JsonConvert.SerializeObject(root);
+            rtn = rtn.Replace("ColumnNameX", ColumnName);
+            return rtn;
         }
 
         public string DoRelation<S>(string OpString, S source, string ColumnName, IEnumerable tergets)
@@ -180,6 +212,7 @@ namespace BaaSReponsitory
         {
 
         }
+#endif
 
     }
 }

@@ -16,7 +16,7 @@ namespace BaaSReponsitory
         public BaseRestBaaS<TKey, TRootWrapper, TEntity> RestService { get; set; }
 #if FRAMEWORK
 
-        public virtual void AnalyzeTEntity(TEntity entity)
+        public virtual void RealtionHandlerAfterPost(TEntity entity)
         {
             var s_type = typeof(TEntity);
 
@@ -34,26 +34,61 @@ namespace BaaSReponsitory
                             var cf_info = (CloudFiled)cf[0];
                             if (!cf_info.IsPrimaryKey)
                             {
-                                if (cf_info.RelationType == CloudFiledType.OneToMany)
+
+                                if (cf_info.IsRelation)
                                 {
-                                    var t_type = pt.GetGenericArguments()[0];
-                                    Type[] CloudRelationXParams = new Type[] { t_type };
-                                    Type targetType = typeof(CloudRelationX<>);
 
-                                    Type constructed = targetType.MakeGenericType(CloudRelationXParams);
-
-                                    var cloudRelation = (IRelationX)Activator.CreateInstance(constructed);
-
-                                    var targets = (IEnumerable)pro.GetValue(entity);
-
-                                    if (targets != null)
+                                    Type t_type = null;
+                                    object target = null;
+                                    if (cf_info.RelationType == CloudFiledType.OneToMany)
                                     {
-                                        string updateString = cloudRelation.AddReltion<TEntity>(entity, cf_info.ColumnName, targets);
-
-                                        this.Update(entity, updateString);
+                                        t_type = pt.GetGenericArguments()[0];
+                                        target = (IEnumerable)pro.GetValue(entity);
+                                       
+                                    }
+                                    else if (cf_info.RelationType == CloudFiledType.ManyToOne)
+                                    {
+                                        t_type = pt;
+                                        target = pro.GetValue(entity);
                                     }
 
+                                    if (target == null)
+                                        return;
+
+                                    string columnName = "";
+                                    if (string.IsNullOrEmpty(cf_info.ColumnName))
+                                    {
+                                        columnName = pro.Name;
+                                    }
+                                    else
+                                    {
+                                        columnName = cf_info.ColumnName;
+                                    }
+
+                                    Type[] CloudRelationXParams = new Type[] { t_type };
+                                    Type targetType = typeof(CloudRelationX<>);
+                                    Type constructed = targetType.MakeGenericType(CloudRelationXParams);
+                                    var cloudRelation = (IRelationX)Activator.CreateInstance(constructed);
+
+
+                                    string updateString = "";
+
+
+                                    if (cf_info.RelationType == CloudFiledType.OneToMany)
+                                    {
+                                        if (target != null)
+                                        updateString = cloudRelation.AddReltionOneToMany<TEntity>(entity, columnName, (IEnumerable)target);
+                                    }
+
+                                    if (cf_info.RelationType == CloudFiledType.ManyToOne)
+                                    {
+                                        if (target != null)
+                                        updateString = cloudRelation.AddRelationManyToOne<TEntity>(entity, columnName, target);
+                                    }
+
+                                    this.Update(entity, updateString);
                                 }
+
                             }
                         }
                     }
@@ -61,52 +96,59 @@ namespace BaaSReponsitory
             }
         }
 
+        public virtual void RealtionHandlerAfterGet()
+        {
+ 
+        }
+
         public virtual TEntity Add(TEntity entity)
         {
             var rtn = RestService.Post(entity);
-            AnalyzeTEntity(rtn);
+            RealtionHandlerAfterPost(rtn);
             return rtn;
         }
 
         public virtual TEntity Get(TKey Id)
         {
-            return RestService.Get(Id);
+            var rtn = RestService.Get(Id);
+
+            return rtn;
         }
 
-        public IQueryable<TEntity> GetAll()
+        public virtual IQueryable<TEntity> GetAll()
         {
             return RestService.GetAll();
         }
 
-        public TEntity Update(TEntity entity)
+        public virtual TEntity Update(TEntity entity)
         {
             var key = RestService.GetEntityId<TKey>(entity);
 
             return RestService.Put(key, entity);
         }
 
-        public TEntity Update(TEntity entity,object updateData)
+        public virtual TEntity Update(TEntity entity, object updateData)
         {
             var key = RestService.GetEntityId<TKey>(entity);
 
-            return RestService.Put(key,entity, updateData);
+            return RestService.Put(key, entity, updateData);
         }
 
-        public TEntity Update(TEntity entity, string updateString)
+        public virtual TEntity Update(TEntity entity, string updateString)
         {
             var key = RestService.GetEntityId<TKey>(entity);
 
-            return RestService.Put(key,entity, updateString);
+            return RestService.Put(key, entity, updateString);
         }
 
-        public bool Delete(TEntity entity)
+        public virtual bool Delete(TEntity entity)
         {
             var key = RestService.GetEntityId<TKey>(entity);
 
             return RestService.Delete(key);
         }
 
-        public IQueryable<TEntity> GetByFilter(object filterData)
+        public virtual IQueryable<TEntity> GetByFilter(object filterData)
         {
             return RestService.GetByFilter(filterData);
         }
@@ -121,18 +163,18 @@ namespace BaaSReponsitory
             RestService.Get(Id, callback);
         }
 
-        public void GetAll(Action<IQueryable<TEntity>> callback)
+        public virtual void GetAll(Action<IQueryable<TEntity>> callback)
         {
             RestService.GetAll(callback);
         }
 
-        public void Update(TEntity entity, Action<TEntity> callback)
+        public virtual void Update(TEntity entity, Action<TEntity> callback)
         {
             var key = RestService.GetEntityId<TKey>(entity);
             RestService.Put(key, entity, callback);
         }
 
-        public void Delete(TEntity entity, Action<bool> callback)
+        public virtual void Delete(TEntity entity, Action<bool> callback)
         {
             var key = RestService.GetEntityId<TKey>(entity);
 

@@ -15,8 +15,8 @@ namespace BaaSReponsitory
         public string objectId { get; set; }
     }
 
-    public class CloudPointerX<T>
+    public class CloudPointerRootWrapper
     {
-
+        public CloudPointer ColumnNameX { get; set; }
     }
 }

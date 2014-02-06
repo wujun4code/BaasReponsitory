@@ -94,6 +94,9 @@
     <Compile Include="..\BaaSReponsitory\DataContracts\AVOSCloudJsonWrapper.cs">
       <Link>DataContracts\AVOSCloudJsonWrapper.cs</Link>
     </Compile>
+    <Compile Include="..\BaaSReponsitory\DataContracts\AVOSRelationFiter.cs">
+      <Link>DataContracts\AVOSRelationFiter.cs</Link>
+    </Compile>
     <Compile Include="..\BaaSReponsitory\DataContracts\BaaSServiceHost.cs">
       <Link>DataContracts\BaaSServiceHost.cs</Link>
     </Compile>
@@ -112,8 +115,14 @@
     <Compile Include="..\BaaSReponsitory\DataContracts\CloudObject.cs">
       <Link>DataContracts\CloudObject.cs</Link>
     </Compile>
+    <Compile Include="..\BaaSReponsitory\DataContracts\CloudOpponents.cs">
+      <Link>DataContracts\CloudOpponents.cs</Link>
+    </Compile>
     <Compile Include="..\BaaSReponsitory\DataContracts\CloudPointer.cs">
       <Link>DataContracts\CloudPointer.cs</Link>
+    </Compile>
+    <Compile Include="..\BaaSReponsitory\DataContracts\CloudRelation.cs">
+      <Link>DataContracts\CloudRelation.cs</Link>
     </Compile>
     <Compile Include="..\BaaSReponsitory\DataContracts\JsonWrapper.cs">
       <Link>DataContracts\JsonWrapper.cs</Link>
@@ -132,6 +141,9 @@
     </Compile>
     <Compile Include="..\BaaSReponsitory\ServiceContracts\IInterfaceFactory.cs">
       <Link>ServiceContracts\IInterfaceFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\BaaSReponsitory\ServiceContracts\IRelationX.cs">
+      <Link>ServiceContracts\IRelationX.cs</Link>
     </Compile>
     <Compile Include="..\BaaSReponsitory\ServiceContracts\IRestBaaS.cs">
       <Link>ServiceContracts\IRestBaaS.cs</Link>
