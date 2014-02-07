@@ -466,6 +466,27 @@ namespace BaaSReponsitory
 
             return entity;
         }
+        public virtual void SetTEntityId(object entity, TKey objectId)
+        {
+            var type = entity.GetType();
+            var pro_infos = type.GetProperties();
+            foreach (var pi in pro_infos)
+            {
+                var cloud_fields = pi.GetCustomAttributes(typeof(CloudFiled), true);
+
+                if (cloud_fields.Length > 0)
+                {
+                    var cloud_field = cloud_fields[0];
+
+                    if (((CloudFiled)cloud_field).IsPrimaryKey)
+                    {
+                        pi.SetValue(entity, objectId);
+                        break;
+                    }
+                }
+            }
+        }
+
         public virtual K GetEntityId<K>(TEntity entiy)
         {
             var rtn = default(K);

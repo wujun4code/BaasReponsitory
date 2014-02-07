@@ -35,7 +35,7 @@ namespace SampleDemo
 
             #region demo
 
-
+            var alexx = ss.Get<string, Girl>("52f43c69e4b0f8de283c0647");
             var Alex = new Girl()
             {
                 FullName = "Alexandra Hunter",

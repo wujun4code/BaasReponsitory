@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json.Linq;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -65,46 +66,6 @@ namespace BaaSReponsitory
 
         public override string SerializeEntityToPost(TEntity entity)
         {
-            var type = typeof(TEntity);
-
-            var properties = type.GetProperties();
-
-            foreach (var pro in properties)
-            {
-                var pt = pro.PropertyType;
-                if (pt == typeof(CloudPointer))
-                {
-                    var data = pro.GetValue(entity);
-                    if (data == null)
-                    {
-                        var cf = pro.GetCustomAttributes(typeof(CloudFiled), true);
-                        if (cf != null)
-                        {
-                            if (cf.Length > 0)
-                            {
-                                var cfInfo = (CloudFiled)cf[0];
-                                if (cfInfo.RelationType == CloudFiledType.ManyToOne)
-                                {
- 
-                                }
-
-                                //var cp = new CloudPointer();
-                                //cp.__type = "Pointer";
-                                //cp.className = cfInfo.PointerTarget;
-
-                                //var pv = type.GetProperty(cfInfo.PointerPrimaryKeyValueName);
-                                //var pointerId = (string)pv.GetValue(entity);
-
-                                //cp.objectId = pointerId;
-
-                                //pro.SetValue(entity, cp);
-                            }
-                        }
-                    }
-                }
-               
-            }
-
             return base.SerializeEntityToPost(entity);
         }
 
@@ -114,58 +75,31 @@ namespace BaaSReponsitory
             var rtn = base.DeserializerFromResponse(rep);
 
             var type = typeof(TEntity);
-
+            JObject rtnJObj = JObject.Parse(rep.Content);
             var properties = type.GetProperties();
 
             foreach (var pro in properties)
             {
                 var pt = pro.PropertyType;
-                if (pt == typeof(CloudPointer))
+                var cf = pro.GetCustomAttributes(typeof(CloudFiled), true);
+                if (cf != null)
                 {
-                    var data = pro.GetValue(rtn);
-                    if (data != null)
+                    if (cf.Length > 0)
                     {
-                        var cf = pro.GetCustomAttributes(typeof(CloudFiled), true);
-                        if (cf != null)
+                        var cfInfo = (CloudFiled)cf[0];
+
+                        if (cfInfo.RelationType == CloudFiledType.ManyToOne
+                            || cfInfo.RelationType == CloudFiledType.OneToOne)
                         {
-                            if (cf.Length > 0)
-                            {
-                                var cfInfo = (CloudFiled)cf[0];
+                            var pointerInfo = rtnJObj[cfInfo.ColumnName]["objectId"];
 
-                                var cp = (CloudPointer)data;
-
-                                var pv = type.GetProperty("xxx");
-
-                                pv.SetValue(rtn, cp.objectId);
-                            }
+                            var pointerObj = Activator.CreateInstance(pt);
+                            SetTEntityId(pointerObj, (string)pointerInfo);
+                            pro.SetValue(rtn, pointerObj);
                         }
                     }
                 }
-                else if (pt == typeof(CloudRelationAVOSImpl))
-                {
-                    var data = pro.GetValue(rtn);
-                    if (data != null)
-                    {
-                        var cf = pro.GetCustomAttributes(typeof(CloudFiled), true);
-                        if (cf != null)
-                        {
-                            if (cf.Length > 0)
-                            {
-                                //var cfInfo = (CloudFiled)cf[0];
 
-                                //var cp = (CloudRelation)data;
-
-                                //var pv = type.GetProperty("xxx");
-                                //var v = new List<string>();
-                                //foreach (var o in cp.objects)
-                                //{
-                                //    v.Add(o.objectId);
-                                //}
-                                //pv.SetValue(rtn, v);
-                            }
-                        }
-                    }
-                }
             }
 
 
