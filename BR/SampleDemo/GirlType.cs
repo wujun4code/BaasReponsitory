@@ -18,7 +18,7 @@ namespace SampleDemo
         [DataMember(Name = "TypeName")]
         public string TypeName { get; set; }
 
-        [CloudFiled(ColumnName = "FocusdBoys", RelationType = CloudFiledType.OneToMany)]
+        [CloudFiled(ColumnName = "FocusdBoys",IsRelation = true, RelationType = CloudFiledType.OneToMany)]
         public List<Boy> FocusdBoys { get; set; }
 
         [CloudFiled(ColumnName = "GirlsMatchType", IsRelation = true, RelationType = CloudFiledType.OneToMany)]

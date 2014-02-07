@@ -46,7 +46,7 @@ namespace BaaSReponsitory
                                         target = (IEnumerable)pro.GetValue(entity);
                                        
                                     }
-                                    else if (cf_info.RelationType == CloudFiledType.ManyToOne)
+                                    else if (cf_info.RelationType == CloudFiledType.ManyToOne || cf_info.RelationType == CloudFiledType.OneToOne)
                                     {
                                         t_type = pt;
                                         target = pro.GetValue(entity);
