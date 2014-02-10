@@ -34,8 +34,8 @@ namespace BaaSReponsitory
                             var cf_info = (CloudFiled)cf[0];
                             if (!cf_info.IsPrimaryKey)
                             {
-
-                                if (cf_info.IsRelation)
+                                var targetValue = pro.GetValue(entity);
+                                if (cf_info.IsRelation && targetValue != null)
                                 {
 
                                     Type t_type = null;
@@ -123,7 +123,7 @@ namespace BaaSReponsitory
         public virtual TEntity Update(TEntity entity)
         {
             var key = RestService.GetEntityId<TKey>(entity);
-
+            RealtionHandlerAfterPost(entity);
             return RestService.Put(key, entity);
         }
 
