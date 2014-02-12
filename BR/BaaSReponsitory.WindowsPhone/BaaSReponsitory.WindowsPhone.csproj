@@ -97,6 +97,9 @@
     <Compile Include="..\BaaSReponsitory\DataContracts\AVOSRelationFiter.cs">
       <Link>DataContracts\AVOSRelationFiter.cs</Link>
     </Compile>
+    <Compile Include="..\BaaSReponsitory\DataContracts\AVOSUser.cs">
+      <Link>DataContracts\AVOSUser.cs</Link>
+    </Compile>
     <Compile Include="..\BaaSReponsitory\DataContracts\BaaSServiceHost.cs">
       <Link>DataContracts\BaaSServiceHost.cs</Link>
     </Compile>
@@ -124,11 +127,20 @@
     <Compile Include="..\BaaSReponsitory\DataContracts\CloudRelation.cs">
       <Link>DataContracts\CloudRelation.cs</Link>
     </Compile>
+    <Compile Include="..\BaaSReponsitory\DataContracts\CloudRole.cs">
+      <Link>DataContracts\CloudRole.cs</Link>
+    </Compile>
+    <Compile Include="..\BaaSReponsitory\DataContracts\CloudUser.cs">
+      <Link>DataContracts\CloudUser.cs</Link>
+    </Compile>
     <Compile Include="..\BaaSReponsitory\DataContracts\JsonWrapper.cs">
       <Link>DataContracts\JsonWrapper.cs</Link>
     </Compile>
     <Compile Include="..\BaaSReponsitory\ServiceContracts\IBaaS.cs">
       <Link>ServiceContracts\IBaaS.cs</Link>
+    </Compile>
+    <Compile Include="..\BaaSReponsitory\ServiceContracts\IBaaSAuthenticate.cs">
+      <Link>ServiceContracts\IBaaSAuthenticate.cs</Link>
     </Compile>
     <Compile Include="..\BaaSReponsitory\ServiceContracts\IBaaSConfig.cs">
       <Link>ServiceContracts\IBaaSConfig.cs</Link>

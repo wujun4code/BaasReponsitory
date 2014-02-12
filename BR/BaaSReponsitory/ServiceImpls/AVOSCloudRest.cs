@@ -63,22 +63,7 @@ namespace BaaSReponsitory
             return rtn;
 
         }
-        public IRestRequest CreateRegisterRequest<TUser>(TUser newUser)where TUser : CloudUser
-        {
-            var req = new RestRequest();
 
-            req.Resource = "users";
-
-            req.Method = Method.POST;
-
-            SetRequest(req);
-
-            var BodyDataString = JsonConvert.SerializeObject(newUser);
-
-            req.AddParameter("application/json", BodyDataString, ParameterType.RequestBody);
-
-            return req;
-        }
 
         public TUser Login<TUser>(TUser user) where TUser : CloudUser
         {
@@ -89,7 +74,7 @@ namespace BaaSReponsitory
             req.Resource = "login";
             req.Method = Method.GET;
             SetRequest(req);
-            
+
 
             var filterString = JsonConvert.SerializeObject(user);
 
@@ -108,6 +93,24 @@ namespace BaaSReponsitory
 
         }
 
+
+#endif
+        public IRestRequest CreateRegisterRequest<TUser>(TUser newUser) where TUser : CloudUser
+        {
+            var req = new RestRequest();
+
+            req.Resource = "users";
+
+            req.Method = Method.POST;
+
+            SetRequest(req);
+
+            var BodyDataString = JsonConvert.SerializeObject(newUser);
+
+            req.AddParameter("application/json", BodyDataString, ParameterType.RequestBody);
+
+            return req;
+        }
         public IRestRequest CreateLoginRequest<TUser>(TUser user) where TUser : CloudUser
         {
             var req = new RestRequest();
@@ -125,7 +128,6 @@ namespace BaaSReponsitory
 
             return req;
         }
-#endif
         public void RegisterAsync<TUser>(TUser newUser, Action<TUser> callback) where TUser : CloudUser
         {
             ProcessClientBeforeSend();

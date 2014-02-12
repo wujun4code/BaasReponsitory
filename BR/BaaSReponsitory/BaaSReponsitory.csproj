@@ -68,7 +68,6 @@
     <Compile Include="ServiceContracts\IBaaSAuthenticate.cs" />
     <Compile Include="ServiceContracts\IInterfaceFactory.cs" />
     <Compile Include="ServiceContracts\IRelationX.cs" />
-    <Compile Include="ServiceContracts\IRestTool.cs" />
     <Compile Include="ServiceImpls\AVOSCloud.cs" />
     <Compile Include="DataContracts\AVOSCloudJsonWrapper.cs" />
     <Compile Include="ServiceImpls\AVOSCloudRest.cs" />
@@ -83,7 +82,6 @@
     <Compile Include="ServiceImpls\BssSProvider.cs" />
     <Compile Include="DataContracts\CloudFiled.cs" />
     <Compile Include="DataContracts\CloudObject.cs" />
-    <Compile Include="ServiceImpls\CloudRelationQuery.cs" />
     <Compile Include="ServiceImpls\Parse.cs" />
     <Compile Include="ServiceImpls\ParseRest.cs" />
     <Compile Include="ServiceImpls\SimpleFactory.cs" />
@@ -94,7 +92,6 @@
     <Compile Include="ServiceContracts\IRestBaaS.cs" />
     <Compile Include="DataContracts\JsonWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceImpls\SimpleRestTool.cs" />
     <Compile Include="ServiceImpls\SimpleService.cs" />
   </ItemGroup>
   <ItemGroup>

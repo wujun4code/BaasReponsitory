@@ -98,11 +98,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\SampleDemo\Boy.cs">
+      <Link>Boy.cs</Link>
+    </Compile>
+    <Compile Include="..\SampleDemo\CustomUser.cs">
+      <Link>CustomUser.cs</Link>
+    </Compile>
+    <Compile Include="..\SampleDemo\Girl.cs">
+      <Link>Girl.cs</Link>
+    </Compile>
+    <Compile Include="..\SampleDemo\GirlType.cs">
+      <Link>GirlType.cs</Link>
+    </Compile>
     <Compile Include="..\SampleDemo\TestObject.cs">
       <Link>TestObject.cs</Link>
     </Compile>
     <Compile Include="..\SampleDemo\Todo.cs">
       <Link>Todo.cs</Link>
+    </Compile>
+    <Compile Include="..\SampleDemo\TodoType.cs">
+      <Link>TodoType.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

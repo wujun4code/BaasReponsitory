@@ -26,7 +26,6 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Vertical" >
-                                    <!--<toolkit:HubTile d:LayoutOverrides="Width, Height" Size="Large"  Message="{Binding Content}"  Title="{Binding Title}"  TextOptions.DisplayColorEmoji="True" TextOptions.TextHintingMode="Animated"/>-->
                                     <TextBlock Text="{Binding Title}" FontSize="50"></TextBlock>
                                     <TextBlock Text="{Binding Content}" FontSize="28"></TextBlock>
                                 </StackPanel>
@@ -67,6 +66,12 @@
         <shell:ApplicationBar IsVisible="True">
             <shell:ApplicationBarIconButton IconUri="/Toolkit.Content/ApplicationBar.Add.png" Text="add" Click="ApplicationBarIconButton_Click"/>
             <shell:ApplicationBarIconButton IconUri="/Toolkit.Content/refresh.png" Text="refresh" Click="refresh_Click"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem  Click="Login_Click"  Text="login" />
+                <shell:ApplicationBarMenuItem  Click="Register_Click"  Text="register" />
+            </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
+
+    
 </phone:PhoneApplicationPage>

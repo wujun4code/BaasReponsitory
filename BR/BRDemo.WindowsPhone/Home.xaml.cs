@@ -30,11 +30,11 @@ namespace BRDemo.WindowsPhone
                 my_popup_xaml.IsOpen = true;
             }
             else
-            { 
-                my_popup_xaml.IsOpen = true; 
+            {
+                my_popup_xaml.IsOpen = true;
             }
 
-           
+
         }
         private void refresh_Click(object sender, EventArgs e)
         {
@@ -52,7 +52,7 @@ namespace BRDemo.WindowsPhone
             lb_demo.DataContext = s;
         }
 
-        private Todo CreateNow(string title,string content)
+        private Todo CreateNow(string title, string content)
         {
             Todo rtn = new Todo()
             {
@@ -91,6 +91,43 @@ namespace BRDemo.WindowsPhone
             {
                 my_popup_xaml.IsOpen = false;
             }
+        }
+
+        private void Login_Click(object sender, EventArgs e)
+        {
+            CustomUser Diana = new CustomUser() 
+            {
+                UserName = "Diana",
+                Password = "abcd1234!",
+            };
+
+            dbRepon.LoginAsync<CustomUser>(Diana, new Action<CustomUser>(
+               (item) =>
+               {
+                   string mesaage = "Logined successful!, and the sessionToken is " + item.sessionToken;
+                   MessageBox.Show(mesaage);
+               }
+               ));
+        }
+
+        private void Register_Click(object sender, EventArgs e)
+        {
+            CustomUser Diana = new CustomUser()
+            {
+                UserName = "Diana",
+                Password = "abcd1234!",
+                Email = "Diana@FBI.com",
+                birthday = DateTime.Now.AddYears(-22),
+                mobilePhone = "138888888"
+            };
+
+            dbRepon.RegisterAsync<CustomUser>(Diana, new Action<CustomUser>(
+                (item) =>
+                {
+                    string mesaage = "Registerd successful!, and the sessionToken is " + item.sessionToken;
+                    MessageBox.Show(mesaage);
+                }
+                ));
         }
     }
 }
