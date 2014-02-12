@@ -34,6 +34,20 @@ namespace SampleDemo
             Todo test_todo_obj = new Todo();//A test class for this Parse.com demo(https://parse.com/).you can define another one.
 
             #region demo
+            CustomUser jones = new CustomUser()
+            {
+                UserName = "Jones",
+                Password = "abcd1234!",
+                Email = "Jones@FBI.com",
+                birthday = DateTime.Now.AddYears(-22),
+                mobilePhone = "138888888"
+            };
+
+            ss.Register(jones);
+
+            ss.Login<CustomUser>(jones);
+
+
 
             var alexx = ss.Get<string, Girl>("52f43c69e4b0f8de283c0647");
             var Alex = new Girl()

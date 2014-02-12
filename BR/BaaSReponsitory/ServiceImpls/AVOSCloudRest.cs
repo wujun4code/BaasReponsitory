@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BaaSReponsitory
 {
-    public class AVOSCloudRest<TEntity> : BaseRestBaaS<string, AVOSJsonWrapper, TEntity>
+    public class AVOSCloudRest<TEntity> : BaseRestBaaS<string, AVOSJsonWrapper, TEntity>, IBaaSAuthenticate
         where TEntity : class
     {
         public AVOSCloudRest()
@@ -45,7 +46,120 @@ namespace BaaSReponsitory
         public override string ListJsonRootNodeName { get; set; }
 
         public override IRestClient Client { get; set; }
+        #region
+#if FRAMEWORK
+        public TUser Register<TUser>(TUser newUser) where TUser : CloudUser
+        {
+            ProcessClientBeforeSend();
 
+            var req = CreateRegisterRequest<TUser>(newUser);
+
+            IRestResponse rep = null;
+
+            rep = Client.Execute(req);
+
+            TUser rtn = Deserializer<TUser>(rep, BaaSDataFormat.Json);
+
+            return rtn;
+
+        }
+        public IRestRequest CreateRegisterRequest<TUser>(TUser newUser)where TUser : CloudUser
+        {
+            var req = new RestRequest();
+
+            req.Resource = "users";
+
+            req.Method = Method.POST;
+
+            SetRequest(req);
+
+            var BodyDataString = JsonConvert.SerializeObject(newUser);
+
+            req.AddParameter("application/json", BodyDataString, ParameterType.RequestBody);
+
+            return req;
+        }
+
+        public TUser Login<TUser>(TUser user) where TUser : CloudUser
+        {
+            ProcessClientBeforeSend();
+
+            var req = new RestRequest();
+
+            req.Resource = "login";
+            req.Method = Method.GET;
+            SetRequest(req);
+            
+
+            var filterString = JsonConvert.SerializeObject(user);
+
+            req.AddHeader("Content-Type", "data-urlencode");
+
+            req.AddParameter("username", user.UserName);
+            req.AddParameter("password", user.Password);
+
+            IRestResponse rep = null;
+
+            rep = Client.Execute(req);
+
+            TUser rtn = Deserializer<TUser>(rep, BaaSDataFormat.Json);
+
+            return rtn;
+
+        }
+
+        public IRestRequest CreateLoginRequest<TUser>(TUser user) where TUser : CloudUser
+        {
+            var req = new RestRequest();
+
+            req.Resource = "login";
+            req.Method = Method.GET;
+            SetRequest(req);
+
+            var filterString = JsonConvert.SerializeObject(user);
+
+            req.AddHeader("Content-Type", "data-urlencode");
+
+            req.AddParameter("username", user.UserName);
+            req.AddParameter("password", user.Password);
+
+            return req;
+        }
+#endif
+        public void RegisterAsync<TUser>(TUser newUser, Action<TUser> callback) where TUser : CloudUser
+        {
+            ProcessClientBeforeSend();
+
+            var req = CreateRegisterRequest<TUser>(newUser);
+
+            Client.ExecuteAsync(req, new Action<IRestResponse, RestRequestAsyncHandle>
+               (
+               (repp, rrayh) =>
+               {
+                   TUser rtn = Deserializer<TUser>(repp, BaaSDataFormat.Json);
+                   callback(rtn);
+               })
+               );
+        }
+
+        public void LoginAsync<TUser>(TUser user, Action<TUser> callback) where TUser : CloudUser
+        {
+            ProcessClientBeforeSend();
+
+            var req = CreateLoginRequest<TUser>(user);
+
+            Client.ExecuteAsync(req, new Action<IRestResponse, RestRequestAsyncHandle>
+              (
+              (repp, rrayh) =>
+              {
+                  TUser rtn = Deserializer<TUser>(repp, BaaSDataFormat.Json);
+                  callback(rtn);
+              })
+              );
+        }
+
+
+        #endregion
         public override string CreateResource()
         {
             var rtn = "";

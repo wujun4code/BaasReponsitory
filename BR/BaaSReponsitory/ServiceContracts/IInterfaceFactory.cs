@@ -11,5 +11,7 @@ namespace BaaSReponsitory
         T CreateInterface<T>(string typeName, string assemblyName);
 
         IBaaS<TKey, TEntity> CreateIBaaS<TKey, TEntity>(string typeName, string assemblyName) where TEntity:class;
+
+        IBaaSAuthenticate CreateIBaaSAuthenticate<TUser>(string typeName, string assemblyName) where TUser : CloudUser;
     }
 }

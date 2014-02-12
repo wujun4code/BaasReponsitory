@@ -575,6 +575,17 @@ namespace BaaSReponsitory
             return Deserializer<TEntity>(rep, DefaultDataFormat);
         }
 
+        public virtual string SerializeToPost<T>(T obj)
+        {
+            var rtn = "";
+            Newtonsoft.Json.JsonSerializerSettings _jsonSetting = new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+            };
+            rtn = JsonConvert.SerializeObject(obj, Formatting.Indented, _jsonSetting);
+            return rtn;
+        }
+
         public virtual T Deserializer<T>(IRestResponse response, BaaSDataFormat format)
         {
             T rtn = default(T);

@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boy.cs" />
+    <Compile Include="CustomUser.cs" />
     <Compile Include="Girl.cs" />
     <Compile Include="GirlType.cs" />
     <Compile Include="TestObject.cs" />

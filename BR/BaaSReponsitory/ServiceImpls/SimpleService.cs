@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BaaSReponsitory
 {
-    public class SimpleService : IBaaSService
+    public class SimpleService : IBaaSService, IBaaSAuthenticate
     {
 
         public void InjectServiceProvider(IBaaSProvider reponsitoryService)
@@ -51,9 +51,9 @@ namespace BaaSReponsitory
             return this.ReponsitoryService.Create<TKey, TEntity>().Update(entity);
         }
 
-        public TEntity Update<TKey, TEntity>(TEntity entity,object updateData) where TEntity : class
+        public TEntity Update<TKey, TEntity>(TEntity entity, object updateData) where TEntity : class
         {
-            return this.ReponsitoryService.Create<TKey, TEntity>().Update(entity,updateData);
+            return this.ReponsitoryService.Create<TKey, TEntity>().Update(entity, updateData);
         }
 
         public TEntity Update<TKey, TEntity>(TEntity entity, string updateString) where TEntity : class
@@ -69,6 +69,16 @@ namespace BaaSReponsitory
         public IQueryable<TEntity> GetByFilter<TKey, TEntity>(object filterData) where TEntity : class
         {
             return this.ReponsitoryService.Create<TKey, TEntity>().GetByFilter(filterData);
+        }
+
+        public TUser Register<TUser>(TUser newUser) where TUser : CloudUser
+        {
+            return this.ReponsitoryService.CreateAuthenticateService<TUser>().Register<TUser>(newUser);
+        }
+
+        public TUser Login<TUser>(TUser user) where TUser : CloudUser
+        {
+            return this.ReponsitoryService.CreateAuthenticateService<TUser>().Login<TUser>(user);
         }
 #endif
         public void Add<TKey, TEntity>(TEntity entity, Action<TEntity> callback) where TEntity : class
@@ -94,6 +104,16 @@ namespace BaaSReponsitory
         public void Delete<TKey, TEntity>(TEntity entity, Action<bool> callback) where TEntity : class
         {
             this.ReponsitoryService.Create<TKey, TEntity>().Delete(entity, callback);
+        }
+
+        public void RegisterAsync<TUser>(TUser newUser, Action<TUser> callback) where TUser : CloudUser
+        {
+            this.ReponsitoryService.CreateAuthenticateService<TUser>().RegisterAsync<TUser>(newUser, callback);
+        }
+
+        public void LoginAsync<TUser>(TUser user, Action<TUser> callback) where TUser : CloudUser
+        {
+            this.ReponsitoryService.CreateAuthenticateService<TUser>().LoginAsync<TUser>(user, callback);
         }
 
     }

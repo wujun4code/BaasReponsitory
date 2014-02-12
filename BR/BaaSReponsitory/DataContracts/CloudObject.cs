@@ -15,6 +15,12 @@ namespace BaaSReponsitory
 
         public string ReponsitoryAssemblyName { get; set; }
 
+        public CloudObjectType ModeType { get; set; }
+
+        public string BaaSServiceProvider { get; set; }
+
+        public string BaaSServiceProviderAssemblyName { get; set; }
+
         public static PropertyInfo GetPrimaryKeyProperty<T>()
         {
             PropertyInfo target_pro = null;
@@ -61,5 +67,12 @@ namespace BaaSReponsitory
             }
             return target_pro;
         }
+    }
+
+    public enum CloudObjectType : int
+    {
+        Normal = 0,
+        User = 1,
+        Role = 2
     }
 }

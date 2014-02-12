@@ -59,11 +59,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContracts\AVOSRelationFiter.cs" />
+    <Compile Include="DataContracts\AVOSUser.cs" />
     <Compile Include="DataContracts\CloudOpponents.cs" />
     <Compile Include="DataContracts\CloudPointer.cs" />
     <Compile Include="DataContracts\CloudRelation.cs" />
+    <Compile Include="DataContracts\CloudRole.cs" />
+    <Compile Include="DataContracts\CloudUser.cs" />
+    <Compile Include="ServiceContracts\IBaaSAuthenticate.cs" />
     <Compile Include="ServiceContracts\IInterfaceFactory.cs" />
     <Compile Include="ServiceContracts\IRelationX.cs" />
+    <Compile Include="ServiceContracts\IRestTool.cs" />
     <Compile Include="ServiceImpls\AVOSCloud.cs" />
     <Compile Include="DataContracts\AVOSCloudJsonWrapper.cs" />
     <Compile Include="ServiceImpls\AVOSCloudRest.cs" />
@@ -89,6 +94,7 @@
     <Compile Include="ServiceContracts\IRestBaaS.cs" />
     <Compile Include="DataContracts\JsonWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceImpls\SimpleRestTool.cs" />
     <Compile Include="ServiceImpls\SimpleService.cs" />
   </ItemGroup>
   <ItemGroup>

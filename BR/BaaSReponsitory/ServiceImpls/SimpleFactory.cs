@@ -16,8 +16,6 @@ namespace BaaSReponsitory
             {
                 var t = typeof(T);
 
-                var gtas = t.GenericTypeArguments;
-
                 Assembly asse = Assembly.Load(assemblyName);
 
                 var types = asse.GetTypes().AsEnumerable();
@@ -33,9 +31,7 @@ namespace BaaSReponsitory
                     }
                 }
 
-                Type constructed = targetType.MakeGenericType(gtas[1]);
-
-                var rtn = Activator.CreateInstance(constructed);
+                var rtn = Activator.CreateInstance(targetType);
 
                 return (T)rtn;
             }
@@ -44,6 +40,45 @@ namespace BaaSReponsitory
                 throw;
             }
 
+        }
+
+        public IBaaSAuthenticate CreateIBaaSAuthenticate<TUser>(string typeName, string assemblyName) where TUser : CloudUser
+        {
+            try
+            {
+                IBaaSAuthenticate rtn = null;
+
+                var cloudObjType = typeof(TUser);
+
+                Assembly asse = Assembly.Load(assemblyName);
+
+                var types = asse.GetTypes().AsEnumerable();
+
+                var singleType = asse.GetType(typeName);
+
+                Type targetType = null;
+
+                foreach (var ty in types)
+                {
+                    if (ty.Name.Contains(typeName))
+                    {
+                        targetType = ty;
+                        break;
+                    }
+                }
+
+                Type constructed = targetType.MakeGenericType(cloudObjType);
+
+                var result = Activator.CreateInstance(constructed);
+
+                rtn = (IBaaSAuthenticate)result;
+
+                return rtn;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public IBaaS<TKey, TEntity> CreateIBaaS<TKey, TEntity>(string typeName, string assemblyName) where TEntity : class

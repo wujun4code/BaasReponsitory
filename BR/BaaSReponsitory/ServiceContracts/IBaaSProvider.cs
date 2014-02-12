@@ -10,5 +10,6 @@ namespace BaaSReponsitory
     {
         IBaaS<TKey, TEntity> Create<TKey, TEntity>() where TEntity : class;
 
+        IBaaSAuthenticate CreateAuthenticateService<TUser>() where TUser : CloudUser;
     }
 }
