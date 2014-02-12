@@ -43,7 +43,7 @@ namespace SampleDemo
                 mobilePhone = "138888888"
             };
 
-            ss.Register(jones);
+            //ss.Register(jones);
 
             ss.Login<CustomUser>(jones);
 

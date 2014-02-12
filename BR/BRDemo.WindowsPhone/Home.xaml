@@ -69,6 +69,7 @@
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem  Click="Login_Click"  Text="login" />
                 <shell:ApplicationBarMenuItem  Click="Register_Click"  Text="register" />
+                <shell:ApplicationBarMenuItem  Click="test_Click"  Text="test" />
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

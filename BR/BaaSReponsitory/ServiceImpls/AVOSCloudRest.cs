@@ -69,19 +69,7 @@ namespace BaaSReponsitory
         {
             ProcessClientBeforeSend();
 
-            var req = new RestRequest();
-
-            req.Resource = "login";
-            req.Method = Method.GET;
-            SetRequest(req);
-
-
-            var filterString = JsonConvert.SerializeObject(user);
-
-            req.AddHeader("Content-Type", "data-urlencode");
-
-            req.AddParameter("username", user.UserName);
-            req.AddParameter("password", user.Password);
+            var req = CreateLoginRequest<TUser>(user);
 
             IRestResponse rep = null;
 
@@ -117,14 +105,15 @@ namespace BaaSReponsitory
 
             req.Resource = "login";
             req.Method = Method.GET;
+            req.RequestFormat = (DataFormat)((int)DefaultDataFormat);
             SetRequest(req);
 
-            var filterString = JsonConvert.SerializeObject(user);
+            //var filterString = JsonConvert.SerializeObject(user);
 
-            req.AddHeader("Content-Type", "data-urlencode");
-
-            req.AddParameter("username", user.UserName);
-            req.AddParameter("password", user.Password);
+            //req.AddHeader("Content-Type", "data-urlencode");
+            
+            req.AddParameter("username", user.UserName, ParameterType.GetOrPost);
+            req.AddParameter("password", user.Password, ParameterType.GetOrPost);
 
             return req;
         }
@@ -150,6 +139,12 @@ namespace BaaSReponsitory
 
             var req = CreateLoginRequest<TUser>(user);
 
+            //Client.ExecuteAsyncGet(req, new Action<IRestResponse, RestRequestAsyncHandle>(
+            //  (repp, rrayh) =>
+            //  {
+            //      TUser rtn = Deserializer<TUser>(repp, BaaSDataFormat.Json);
+            //      callback(rtn);
+            //  }), "GET");
             Client.ExecuteAsync(req, new Action<IRestResponse, RestRequestAsyncHandle>
               (
               (repp, rrayh) =>

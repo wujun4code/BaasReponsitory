@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace BaaSReponsitory
 {
+#if FRAMEWORK
     [CloudObject(BaaSServiceProvider = "AVOSCloudRest", BaaSServiceProviderAssemblyName = "BaaSReponsitory", ModeType = CloudObjectType.User)]
+#endif
+#if WINDOWS_PHONE
+    [CloudObject(BaaSServiceProvider = "AVOSCloudRest", BaaSServiceProviderAssemblyName = "BaaSReponsitory.WindowsPhone", ModeType = CloudObjectType.User)]
+#endif
     [DataContract]
     public class AVOSUser : CloudUser
     {
