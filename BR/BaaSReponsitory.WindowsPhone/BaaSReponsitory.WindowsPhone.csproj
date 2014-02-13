@@ -178,6 +178,9 @@
     <Compile Include="..\BaaSReponsitory\ServiceImpls\BaseRestBaaS.cs">
       <Link>ServiceImpls\BaseRestBaaS.cs</Link>
     </Compile>
+    <Compile Include="..\BaaSReponsitory\ServiceImpls\BaseService.cs">
+      <Link>ServiceImpls\BaseService.cs</Link>
+    </Compile>
     <Compile Include="..\BaaSReponsitory\ServiceImpls\BssSProvider.cs">
       <Link>ServiceImpls\BssSProvider.cs</Link>
     </Compile>
