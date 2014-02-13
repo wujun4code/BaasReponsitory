@@ -79,6 +79,7 @@
     <Compile Include="ServiceImpls\BaseRestBaaS.cs" />
     <Compile Include="DataContracts\BRDic.cs" />
     <Compile Include="DataContracts\BRException.cs" />
+    <Compile Include="ServiceImpls\BaseService.cs" />
     <Compile Include="ServiceImpls\BssSProvider.cs" />
     <Compile Include="DataContracts\CloudFiled.cs" />
     <Compile Include="DataContracts\CloudObject.cs" />
