@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BaaSReponsitory
 {
-    public class SimpleService : IBaaSService, IBaaSAuthenticate
+    public class SimpleService : IBaaSService, IBaaSAuthenticate, IBssSEntityRelation
     {
 
         public void InjectServiceProvider(IBaaSProvider reponsitoryService)
@@ -29,6 +29,24 @@ namespace BaaSReponsitory
                 _reponsitoryService = value;
             }
         }
+
+        private IRelation _relatinService;
+        public IRelation RelatinService
+        {
+            get
+            {
+                if (_relatinService == null)
+                {
+                    _relatinService = new CloudRelation();
+                }
+                return _relatinService;
+            }
+            set
+            {
+                _relatinService = value;
+            }
+        }
+
 #if FRAMEWORK
 
         public TEntity Add<TKey, TEntity>(TEntity entity) where TEntity : class
@@ -80,6 +98,23 @@ namespace BaaSReponsitory
         {
             return this.ReponsitoryService.CreateAuthenticateService<TUser>().Login<TUser>(user);
         }
+        public IEnumerable<T> GetRelatedEntities<S, T>(S source) where T : class
+        {
+            return this.RelatinService.LoadRelatedObject<S, T>(source);
+        }
+
+        public IEnumerable<T> GetRelatedEntities<S, T>(S source, string ColumnName) where T : class 
+        {
+            return this.RelatinService.LoadRelatedObject<S, T>(source, ColumnName);
+        }
+
+        public T GetRelatedEntity<S, T>(S source)
+            where T : class
+            where S : class
+        {
+            return this.RelatinService.LoadPointObject<S, T>(source);
+        }
+        
 #endif
         public void Add<TKey, TEntity>(TEntity entity, Action<TEntity> callback) where TEntity : class
         {

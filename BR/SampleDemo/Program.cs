@@ -34,6 +34,14 @@ namespace SampleDemo
             Todo test_todo_obj = new Todo();//A test class for this Parse.com demo(https://parse.com/).you can define another one.
 
             #region demo
+            var lovely_type = new GirlType()
+            {
+                Id = "52e8c4fee4b0f8de283b118e",
+            };
+            var yyyy = ss.Get<string, Girl>("52fdac77e4b098bb3bc49b2d");
+
+            var ddd = ss.GetRelatedEntities<GirlType, Boy>(lovely_type, "FocusdBoys");
+
             CustomUser jones = new CustomUser()
             {
                 UserName = "Jones",

@@ -66,6 +66,7 @@
     <Compile Include="DataContracts\CloudRole.cs" />
     <Compile Include="DataContracts\CloudUser.cs" />
     <Compile Include="ServiceContracts\IBaaSAuthenticate.cs" />
+    <Compile Include="ServiceContracts\IBssSEntityRelation.cs" />
     <Compile Include="ServiceContracts\IInterfaceFactory.cs" />
     <Compile Include="ServiceContracts\IRelationX.cs" />
     <Compile Include="ServiceImpls\AVOSCloud.cs" />

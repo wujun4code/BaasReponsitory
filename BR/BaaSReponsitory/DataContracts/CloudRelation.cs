@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +19,163 @@ namespace BaaSReponsitory
         public string __type { get; set; }
 
         public string className { get; set; }
+    }
+    public class CloudRelation : IRelation
+    {
+        private IBaaSService _baaSService;
+        public IBaaSService BaaSService
+        {
+            get
+            {
+                if (_baaSService == null)
+                {
+                    _baaSService = new SimpleService();
+                }
+                return _baaSService;
+            }
+            set
+            {
+                _baaSService = value;
+            }
+        }
+
+#if FRAMEWORK
+        public IEnumerable<T> LoadRelatedObject<S, T>(S source)
+            where T : class
+        {
+            var s_type = typeof(S);
+            var t_type = typeof(T);
+            var properties = s_type.GetProperties();
+            var s_column_key = "";
+            foreach (var pro in properties)
+            {
+                var pt = pro.PropertyType;
+                var cloud_fields = pro.GetCustomAttributes(typeof(CloudFiled), true);
+                if (cloud_fields.Length > 0)
+                {
+                    var cloud_field = (CloudFiled)cloud_fields[0];
+
+                    if (cloud_field.IsRelation)
+                    {
+                        if (cloud_field.RelationType == CloudFiledType.OneToMany)
+                        {
+                            if (pt.GenericTypeArguments[0] == t_type)
+                            {
+                                s_column_key = pro.Name;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            return LoadRelatedObject<S, T>(source, s_column_key);
+        }
+
+        public IEnumerable<T> LoadRelatedObject<S, T>(S source, string ColumnName)
+            where T : class
+        {
+
+            var s_type = typeof(S);
+            var t_type = typeof(T);
+            var s_column_key = ColumnName;
+            var s_id = "";
+            var properties = s_type.GetProperties();
+            foreach (var pro in properties)
+            {
+                var pt = pro.PropertyType;
+
+
+                var cloud_fields = pro.GetCustomAttributes(typeof(CloudFiled), true);
+
+                if (cloud_fields.Length > 0)
+                {
+                    var cloud_field = (CloudFiled)cloud_fields[0];
+
+                    if (cloud_field.IsPrimaryKey)
+                    {
+                        s_id = (string)pro.GetValue(source);
+                    }
+                    else
+                    {
+                        if (cloud_field.IsRelation)
+                        {
+                            if (cloud_field.RelationType == CloudFiledType.OneToMany)
+                            {
+                                if (pt.GenericTypeArguments[0] == t_type)
+                                    s_column_key = pro.Name;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+            AVOSRelationFiter arf = new AVOSRelationFiter();
+            arf.key = s_column_key;
+            var s_name = typeof(S).Name;
+
+            arf.relatedTo = new AVOSRelatedTo()
+            {
+                className = s_name,
+                __type = "Pointer",
+                objectId = s_id
+            };
+            AVOSRelatedToRootWrapper artro = new AVOSRelatedToRootWrapper();
+            artro.relatedTo = arf;
+
+            var rtnQuery = this.BaaSService.GetByFilter<string, T>(artro);
+
+            return rtnQuery.AsEnumerable<T>();
+        }
+
+        public T LoadPointObject<S, T>(S source)
+            where T : class
+            where S : class
+        {
+            var s_type = typeof(S);
+            var t_type = typeof(T);
+            var s_column_key = "";
+            var s_id = "";
+            var properties = s_type.GetProperties();
+            foreach (var pro in properties)
+            {
+                var pt = pro.PropertyType;
+
+
+                var cloud_fields = pro.GetCustomAttributes(typeof(CloudFiled), true);
+
+                if (cloud_fields.Length > 0)
+                {
+                    var cloud_field = (CloudFiled)cloud_fields[0];
+
+                    if (cloud_field.IsPrimaryKey)
+                    {
+                        s_id = (string)pro.GetValue(source);
+                    }
+                    else
+                    {
+                        if (cloud_field.IsRelation)
+                        {
+                            if (cloud_field.RelationType == CloudFiledType.ManyToOne || cloud_field.RelationType == CloudFiledType.ManyToOne)
+                            {
+                                if (pt == t_type)
+                                    s_column_key = pro.Name;
+                            }
+                        }
+                    }
+                }
+            }
+
+            string entirString = new AVOSCloudRest<S>().GetPointerObjectID(s_id);
+            //var s_Entity = this.BaaSService.Get<string, S>(s_id);
+            JObject o = JObject.Parse(entirString);
+
+            return default(T);
+        }
+#endif
     }
 
     public class CloudRelationX<T> : IRelationX
@@ -51,6 +209,7 @@ namespace BaaSReponsitory
         {
             return AddRelation<S>(source, ColumnName, targets);
         }
+
         public string AddRelationManyToOne<S>(S source, string ColumnName, object target)
         {
             return DoPointer(source, ColumnName, target);
@@ -58,62 +217,8 @@ namespace BaaSReponsitory
 
         #endregion
 
-        public List<T> RelatedObjects { get; set; }
-
-        public T PointerObject { get; set; }
-
-        public List<T> LoadRelatedObject<S>(S source)
-        {
-
-            var s_type = typeof(S);
-            var s_column_key = "";
-            var s_id = "";
-            var properties = s_type.GetProperties();
-            foreach (var pro in properties)
-            {
-                var pt = pro.PropertyType;
-                if (pt == typeof(CloudRelationX<T>))
-                {
-                    s_column_key = pro.Name;
-                }
-                else
-                {
-                    var cloud_fields = pro.GetCustomAttributes(typeof(CloudFiled), true);
-
-                    if (cloud_fields.Length > 0)
-                    {
-                        var cloud_field = cloud_fields[0];
-
-                        if (((CloudFiled)cloud_field).IsPrimaryKey)
-                        {
-                            s_id = (string)pro.GetValue(source);
-                        }
-                    }
-                }
-            }
 
 
-            AVOSRelationFiter arf = new AVOSRelationFiter();
-            arf.key = s_column_key;
-            var s_name = typeof(S).Name;
-
-            arf.relatedTo = new AVOSRelatedTo()
-            {
-                className = s_name,
-                __type = "Pointer",
-                objectId = s_id
-            };
-            AVOSRelatedToRootWrapper artro = new AVOSRelatedToRootWrapper();
-            artro.relatedTo = arf;
-
-            var rtnQuery = this.BaaSService.GetByFilter<string, T>(artro);
-            RelatedObjects = rtnQuery.ToList();
-            return rtnQuery.ToList();
-        }
-        public string Push<S>(S source, string ColumnName)
-        {
-            return DoRelation("AddRelation", source, ColumnName, this.RelatedObjects);
-        }
         public string AddRelation<S>(S source, string ColumnName, IEnumerable connects)
         {
             return DoRelation("AddRelation", source, ColumnName, connects);

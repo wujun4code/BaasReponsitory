@@ -37,6 +37,8 @@ namespace BaaSReponsitory
 
         }
 
+        
+
         public override string RestApiRootAddress { get; set; }
 
         public override string RestApiVersion { get; set; }
@@ -46,6 +48,27 @@ namespace BaaSReponsitory
         public override string ListJsonRootNodeName { get; set; }
 
         public override IRestClient Client { get; set; }
+
+        #region IRestUtility methed implements
+#if FRAMEWORK
+        public string GetPointerObjectID(string SourceID)
+        {
+            ProcessClientBeforeSend();
+
+            var req = CreateGetRequest(SourceID);
+
+            IRestResponse rep = null;
+
+#if FRAMEWORK
+            rep = Client.Execute(req);
+#endif
+            var rtn = DeserializerFromResponse(rep);
+
+            return rep.Content;
+        }
+#endif
+        #endregion
+
         #region
 #if FRAMEWORK
         public TUser Register<TUser>(TUser newUser) where TUser : CloudUser
@@ -111,7 +134,7 @@ namespace BaaSReponsitory
             //var filterString = JsonConvert.SerializeObject(user);
 
             //req.AddHeader("Content-Type", "data-urlencode");
-            
+
             req.AddParameter("username", user.UserName, ParameterType.GetOrPost);
             req.AddParameter("password", user.Password, ParameterType.GetOrPost);
 
