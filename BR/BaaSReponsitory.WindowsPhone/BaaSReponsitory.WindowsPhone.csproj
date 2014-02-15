@@ -151,6 +151,9 @@
     <Compile Include="..\BaaSReponsitory\ServiceContracts\IBaaSService.cs">
       <Link>ServiceContracts\IBaaSService.cs</Link>
     </Compile>
+    <Compile Include="..\BaaSReponsitory\ServiceContracts\IBssSEntityRelation.cs">
+      <Link>ServiceContracts\IBssSEntityRelation.cs</Link>
+    </Compile>
     <Compile Include="..\BaaSReponsitory\ServiceContracts\IInterfaceFactory.cs">
       <Link>ServiceContracts\IInterfaceFactory.cs</Link>
     </Compile>

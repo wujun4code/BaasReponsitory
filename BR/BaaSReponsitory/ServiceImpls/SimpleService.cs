@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BaaSReponsitory
 {
-    public class SimpleService : IBaaSService, IBaaSAuthenticate, IBssSEntityRelation
+    public class SimpleService : IBaaSService, IBaaSAuthenticate, IBaaSEntityRelation
     {
 
         public void InjectServiceProvider(IBaaSProvider reponsitoryService)
