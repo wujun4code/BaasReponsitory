@@ -108,6 +108,16 @@ namespace BaaSReponsitory
             return this.RelatinService.LoadRelatedObject<S, T>(source, ColumnName);
         }
 
+        public S AddOne2ManyRelation<S, T>(S source, T T_entity)
+        {
+            return this.RelatinService.AddOne2ManyRelation<S, T>(source, T_entity);
+        }
+
+        public S AddOne2ManyRelation<S, T>(S source, string PropertyName, T T_entity)
+        {
+            return this.RelatinService.AddOne2ManyRelation(source, PropertyName, T_entity);
+        }
+        
         public T GetRelatedEntity<S, T>(S source)
             where T : class
             where S : class

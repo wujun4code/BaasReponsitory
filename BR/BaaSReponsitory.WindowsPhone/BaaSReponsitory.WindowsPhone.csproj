@@ -200,6 +200,8 @@
       <Link>ServiceImpls\SimpleService.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceContracts\ICloudObjectAnalyze.cs" />
+    <Compile Include="ServiceImpls\SimpleCloudObjectAnalyze.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">

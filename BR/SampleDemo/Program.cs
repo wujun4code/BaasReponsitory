@@ -34,6 +34,8 @@ namespace SampleDemo
             Todo test_todo_obj = new Todo();//A test class for this Parse.com demo(https://parse.com/).you can define another one.
 
             #region demo
+
+            ss.Get<string, GirlType>("52e8c4fee4b0f8de283b118e");
             var lovely_type = new GirlType()
             {
                 Id = "52e8c4fee4b0f8de283b118e",

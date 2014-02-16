@@ -67,6 +67,7 @@
     <Compile Include="DataContracts\CloudUser.cs" />
     <Compile Include="ServiceContracts\IBaaSAuthenticate.cs" />
     <Compile Include="ServiceContracts\IBssSEntityRelation.cs" />
+    <Compile Include="ServiceContracts\ICloudObjectAnalyze.cs" />
     <Compile Include="ServiceContracts\IInterfaceFactory.cs" />
     <Compile Include="ServiceContracts\IRelationX.cs" />
     <Compile Include="ServiceImpls\AVOSCloud.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="DataContracts\CloudObject.cs" />
     <Compile Include="ServiceImpls\Parse.cs" />
     <Compile Include="ServiceImpls\ParseRest.cs" />
+    <Compile Include="ServiceImpls\SimpleCloudObjectAnalyze.cs" />
     <Compile Include="ServiceImpls\SimpleFactory.cs" />
     <Compile Include="ServiceContracts\IBaaS.cs" />
     <Compile Include="ServiceContracts\IBaaSConfig.cs" />

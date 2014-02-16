@@ -43,34 +43,8 @@ namespace BaaSReponsitory
         public IEnumerable<T> LoadRelatedObject<S, T>(S source)
             where T : class
         {
-            var s_type = typeof(S);
-            var t_type = typeof(T);
-            var properties = s_type.GetProperties();
-            var s_column_key = "";
-            foreach (var pro in properties)
-            {
-                var pt = pro.PropertyType;
-                var cloud_fields = pro.GetCustomAttributes(typeof(CloudFiled), true);
-                if (cloud_fields.Length > 0)
-                {
-                    var cloud_field = (CloudFiled)cloud_fields[0];
-
-                    if (cloud_field.IsRelation)
-                    {
-                        if (cloud_field.RelationType == CloudFiledType.OneToMany)
-                        {
-                            if (pt.GenericTypeArguments[0] == t_type)
-                            {
-                                s_column_key = pro.Name;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-            }
-
-            return LoadRelatedObject<S, T>(source, s_column_key);
+            string ColumnName = new SimpleCloudObjectAnalyze().GetOne2ManyPropertyName<S, T>();
+            return LoadRelatedObject<S, T>(source, ColumnName);
         }
 
         public IEnumerable<T> LoadRelatedObject<S, T>(S source, string ColumnName)
@@ -78,8 +52,6 @@ namespace BaaSReponsitory
         {
 
             var s_type = typeof(S);
-            var t_type = typeof(T);
-            var s_column_key = ColumnName;
             var s_id = "";
             var properties = s_type.GetProperties();
             foreach (var pro in properties)
@@ -96,17 +68,7 @@ namespace BaaSReponsitory
                     if (cloud_field.IsPrimaryKey)
                     {
                         s_id = (string)pro.GetValue(source);
-                    }
-                    else
-                    {
-                        if (cloud_field.IsRelation)
-                        {
-                            if (cloud_field.RelationType == CloudFiledType.OneToMany)
-                            {
-                                if (pt.GenericTypeArguments[0] == t_type)
-                                    s_column_key = pro.Name;
-                            }
-                        }
+                        break;
                     }
                 }
 
@@ -114,7 +76,7 @@ namespace BaaSReponsitory
 
 
             AVOSRelationFiter arf = new AVOSRelationFiter();
-            arf.key = s_column_key;
+            arf.key = ColumnName;
             var s_name = typeof(S).Name;
 
             arf.relatedTo = new AVOSRelatedTo()
@@ -129,6 +91,46 @@ namespace BaaSReponsitory
             var rtnQuery = this.BaaSService.GetByFilter<string, T>(artro);
 
             return rtnQuery.AsEnumerable<T>();
+        }
+
+        public S AddOne2ManyRelation<S, T>(S source, T T_entity)
+        {
+            string ColumnName = new SimpleCloudObjectAnalyze().GetOne2ManyPropertyName<S, T>();
+
+            return AddOne2ManyRelation<S, T>(source, ColumnName, T_entity);
+        }
+
+        public S AddOne2ManyRelation<S, T>(S source, string PropertyName, T T_entity)
+        {
+            var s_type = typeof(S);
+            var t_type = typeof(T);
+            var s_column_key = PropertyName;
+
+            var T_property = s_type.GetProperty(PropertyName);
+            var pt = T_property.PropertyType;
+            var cloud_fields = T_property.GetCustomAttributes(typeof(CloudFiled), true);
+
+            if (cloud_fields.Length > 0)
+            {
+                var cloud_field = (CloudFiled)cloud_fields[0];
+
+
+                if (cloud_field.IsRelation)
+                {
+                    if (cloud_field.RelationType == CloudFiledType.OneToMany)
+                    {
+                        if (pt.GenericTypeArguments[0] == t_type)
+                        {
+                            var T_result=new  List<T>();
+                            T_result.Add(T_entity);
+                            T_property.SetValue(source, T_result);
+                        }
+
+                    }
+                }
+            }
+
+            return source;
         }
 
         public T LoadPointObject<S, T>(S source)

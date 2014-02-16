@@ -30,6 +30,10 @@ namespace BaaSReponsitory
         IEnumerable<T> LoadRelatedObject<S, T>(S source)
            where T : class;
 
+        S AddOne2ManyRelation<S, T>(S source, string PropertyName, T T_entity);
+
+        S AddOne2ManyRelation<S, T>(S source, T T_entity);
+
         T LoadPointObject<S, T>(S source)
             where T : class
             where S : class;
