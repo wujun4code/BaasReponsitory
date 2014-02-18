@@ -80,7 +80,7 @@ namespace BaaSReponsitory
                                         updateString = cloudRelation.AddReltionOneToMany<TEntity>(entity, columnName, (IEnumerable)target);
                                     }
 
-                                    if (cf_info.RelationType == CloudFiledType.ManyToOne)
+                                    if (cf_info.RelationType == CloudFiledType.ManyToOne || cf_info.RelationType == CloudFiledType.OneToOne)
                                     {
                                         if (target != null)
                                         updateString = cloudRelation.AddRelationManyToOne<TEntity>(entity, columnName, target);

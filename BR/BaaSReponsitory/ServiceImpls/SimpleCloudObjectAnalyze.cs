@@ -95,12 +95,20 @@ namespace BaaSReponsitory
                                 PropertyName = pro.Name;
                                 break;
                             }
-                            else if (pt.GenericTypeArguments[0] == t_type)
+                            else if (pt.GenericTypeArguments != null)
                             {
-                                rtn = cloud_field;
-                                PropertyName = pro.Name;
-                                break;
+                                if (pt.GenericTypeArguments.Length > 0)
+                                {
+                                    if (pt.GenericTypeArguments[0] == t_type)
+                                    {
+                                        rtn = cloud_field;
+                                        PropertyName = pro.Name;
+                                        break;
+                                    }
+                                }
                             }
+
+
                         }
                     }
                 }

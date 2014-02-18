@@ -225,11 +225,17 @@ namespace BaaSReponsitory
                         if (cfInfo.RelationType == CloudFiledType.ManyToOne
                             || cfInfo.RelationType == CloudFiledType.OneToOne)
                         {
-                            var pointerInfo = rtnJObj[cfInfo.ColumnName]["objectId"];
-
-                            var pointerObj = Activator.CreateInstance(pt);
-                            SetTEntityId(pointerObj, (string)pointerInfo);
-                            pro.SetValue(rtn, pointerObj);
+                            JToken pointerInfo = rtnJObj[cfInfo.ColumnName];
+                            if (pointerInfo != null)
+                            {
+                                JToken pointerId = pointerInfo["objectId"];
+                                if (pointerId != null)
+                                {
+                                    var pointerObj = Activator.CreateInstance(pt);
+                                    SetTEntityId(pointerObj, (string)pointerId);
+                                    pro.SetValue(rtn, pointerObj);
+                                }
+                            }
                         }
                     }
                 }
