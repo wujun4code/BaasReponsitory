@@ -8,6 +8,7 @@ namespace BaaSReponsitory
 {
     public interface ICloudObjectAnalyze
     {
-        string GetOne2ManyPropertyName<S, T>();
+        CloudFiled GetRealtionInfo<S, T>(out string PropertyName);
+        CloudFiled GetRealtionInfo<S, T>(string PropertyName);
     }
 }
