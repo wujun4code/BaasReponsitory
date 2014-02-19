@@ -156,7 +156,11 @@ namespace BaaSReponsitory
         public IQueryable<TEntity> GetByFilter(object filterData)
         {
             ProcessClientBeforeSend();
-            var req = CreateGetByFilterRequest(filterData);
+
+            var filterString = JsonConvert.SerializeObject(filterData);
+
+            var req = CreateGetByFilterRequest(filterString);
+
             IRestResponse rep = null;
 #if FRAMEWORK
             rep = Client.Execute(req);
@@ -165,6 +169,17 @@ namespace BaaSReponsitory
             return GetQueryableByResponse(rep);
         }
 
+        public IQueryable<TEntity> GetByFilter(string filterString)
+        {
+            ProcessClientBeforeSend();
+            var req = CreateGetByFilterRequest(filterString);
+            IRestResponse rep = null;
+#if FRAMEWORK
+            rep = Client.Execute(req);
+#endif
+
+            return GetQueryableByResponse(rep);
+        }
 
 
         public virtual void PostAsync(TEntity entity, Action<TEntity> callback)
@@ -344,7 +359,7 @@ namespace BaaSReponsitory
             return req;
         }
 
-        public virtual IRestRequest CreateGetByFilterRequest(object filterData)
+        public virtual IRestRequest CreateGetByFilterRequest(string filterString)
         {
             var req = new RestRequest();
 
@@ -352,19 +367,11 @@ namespace BaaSReponsitory
 
             req.Method = Method.GET;
 
-            //var filterString = req.JsonSerializer.Serialize(filterData);
-            var filterString = JsonConvert.SerializeObject(filterData);
-
             req.AddHeader("Content-Type", "data-urlencode");
-
             req.AddParameter("where", filterString);
-
-            //SetRequest(req);
             SetNetCredentials(req);
-
             return req;
         }
-
 
         public virtual void SetRequest(IRestRequest req)
         {

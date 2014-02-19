@@ -34,6 +34,8 @@ namespace SampleDemo
             Todo test_todo_obj = new Todo();//A test class for this Parse.com demo(https://parse.com/).you can define another one.
 
             #region demo
+            //ss.GetByFilter<string, GirlType>(new { TypeName = "Nimble" });//equals: ss.GetByFilter<string, GirlType>("{\"TypeName\":\"Nimble\"}");
+            ss.GetByFilter<string, GirlType>("{\"TypeName\":\"Nimble\"}");
             string myType = "";
             var relatinInfo = new SimpleCloudObjectAnalyze().GetRealtionInfo<Girl, GirlType>(out myType);
             ss.Get<string, GirlType>("52e8c4fee4b0f8de283b118e");

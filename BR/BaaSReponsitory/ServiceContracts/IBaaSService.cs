@@ -29,6 +29,8 @@ namespace BaaSReponsitory
 
         IQueryable<TEntity> GetByFilter<TKey, TEntity>(object filterData) where TEntity : class;
 
+        IQueryable<TEntity> GetByFilter<TKey, TEntity>(string filterString) where TEntity : class;
+
 #endif
         void Add<TKey, TEntity>(TEntity entity, Action<TEntity> callback) where TEntity : class;
 

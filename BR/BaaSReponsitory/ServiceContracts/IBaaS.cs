@@ -33,6 +33,8 @@ namespace BaaSReponsitory
 
         IQueryable<TEntity> GetByFilter(object filterData);
 
+        IQueryable<TEntity> GetByFilter(string filterString);
+
 #endif
         void Add(TEntity entity, Action<TEntity> callback);
 

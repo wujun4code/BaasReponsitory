@@ -89,6 +89,11 @@ namespace BaaSReponsitory
             return this.ReponsitoryService.Create<TKey, TEntity>().GetByFilter(filterData);
         }
 
+        public IQueryable<TEntity> GetByFilter<TKey, TEntity>(string filterString) where TEntity : class
+        {
+            return this.ReponsitoryService.Create<TKey, TEntity>().GetByFilter(filterString);
+        }
+
         public TUser Register<TUser>(TUser newUser) where TUser : CloudUser
         {
             return this.ReponsitoryService.CreateAuthenticateService<TUser>().Register<TUser>(newUser);

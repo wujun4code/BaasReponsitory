@@ -152,6 +152,11 @@ namespace BaaSReponsitory
         {
             return RestService.GetByFilter(filterData);
         }
+
+        public IQueryable<TEntity> GetByFilter(string filterString)
+        {
+            return RestService.GetByFilter(filterString);
+        }
 #endif
 
         public virtual void Add(TEntity entity, Action<TEntity> callback)

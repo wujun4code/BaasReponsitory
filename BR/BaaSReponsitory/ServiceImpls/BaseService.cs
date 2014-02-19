@@ -69,6 +69,11 @@ namespace BaaSReponsitory
             return DefaultBaaSService.GetByFilter<TKey, TEntity>(filterData);
         }
 
+        public IQueryable<TEntity> GetByFilter(string filterString)
+        {
+            return DefaultBaaSService.GetByFilter<TKey, TEntity>(filterString);
+        }
+
 #endif
         public void Add(TEntity entity, Action<TEntity> callback)
         {
