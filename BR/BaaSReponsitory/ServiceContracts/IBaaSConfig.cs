@@ -18,29 +18,29 @@ namespace BaaSReponsitory
 
     public interface IBaaSHostConfig
     {
-         string key { get; set; }
+        string key { get; set; }
 
-         string name { get; set; }
+        string name { get; set; }
 
-         string assemblyName { get; set; }
+        string assemblyName { get; set; }
 
-         string targetVersion { get; set; }
+        string targetVersion { get; set; }
 
-         string appId { get; set; }
+        string appId { get; set; }
 
-         string appKey { get; set; }
+        string appKey { get; set; }
 
-         string restApiAddress { get; set; }
+        string restApiAddress { get; set; }
 
-         string apiVersion { get; set; }
+        string apiVersion { get; set; }
     }
 
     public interface IBaaSCloudClassConfig
     {
-         string ClassName { get; set; }
+        string ClassName { get; set; }
 
-         string assemblyName { get; set; }
+        string assemblyName { get; set; }
 
-         string HostKey { get; set; }
+        string HostKey { get; set; }
     }
 }
