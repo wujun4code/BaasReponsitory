@@ -11,8 +11,8 @@ namespace BaaSReponsitory
     {
         CloudFiled GetRealtionInfo<S, T>(out string PropertyName);
         CloudFiled GetRealtionInfo<S, T>(string PropertyName);
-        IEnumerable<PropertyInfo> GetAllCloudFiledProperties<S>();
+        IEnumerable<PropertyInfo> GetAllCloudFiledProperties(Type S);
 
-        PropertyInfo GetPrimaryTypeText<S>();
+        PropertyInfo GetPrimaryTypeText(Type S);
     }
 }

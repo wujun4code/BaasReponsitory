@@ -139,11 +139,11 @@ namespace BaaSReponsitory
             return rtn;
         }
 
-        public IEnumerable<PropertyInfo> GetAllCloudFiledProperties<S>()
+        public IEnumerable<PropertyInfo> GetAllCloudFiledProperties(Type S)
         {
             var rtn = new List<PropertyInfo>();
 
-            var s_type = typeof(S);
+            var s_type = S;
             var properties = s_type.GetProperties();
             foreach (var pro in properties)
             {
@@ -162,10 +162,10 @@ namespace BaaSReponsitory
             return rtn;
         }
 
-        public PropertyInfo GetPrimaryTypeText<S>()
+        public PropertyInfo GetPrimaryTypeText(Type S)
         {
             PropertyInfo rtn = null;
-            var s_type = typeof(S);
+            var s_type = S;
             var properties = s_type.GetProperties();
 
             foreach (var pro in properties)
