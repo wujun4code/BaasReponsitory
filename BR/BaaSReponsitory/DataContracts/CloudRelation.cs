@@ -41,6 +41,7 @@ namespace BaaSReponsitory
 
 #if FRAMEWORK
         public IEnumerable<T> LoadRelatedObject<S, T>(S source)
+            where S : class
             where T : class
         {
             string ColumnName = new SimpleCloudObjectAnalyze().GetOne2ManyPropertyName<S, T>();
@@ -48,6 +49,7 @@ namespace BaaSReponsitory
         }
 
         public IEnumerable<T> LoadRelatedObject<S, T>(S source, string ColumnName)
+            where S : class
             where T : class
         {
 
@@ -94,6 +96,8 @@ namespace BaaSReponsitory
         }
 
         public S AddOne2ManyRelation<S, T>(S source, T T_entity)
+            where S : class
+            where T : class
         {
             string ColumnName = new SimpleCloudObjectAnalyze().GetOne2ManyPropertyName<S, T>();
 
@@ -101,35 +105,64 @@ namespace BaaSReponsitory
         }
 
         public S AddOne2ManyRelation<S, T>(S source, string PropertyName, T T_entity)
+            where S : class
+            where T : class
         {
-            var s_type = typeof(S);
-            var t_type = typeof(T);
-            var s_column_key = PropertyName;
+            //var s_type = typeof(S);
+            //var t_type = typeof(T);
+            //var s_column_key = PropertyName;
 
-            var T_property = s_type.GetProperty(PropertyName);
-            var pt = T_property.PropertyType;
-            var cloud_fields = T_property.GetCustomAttributes(typeof(CloudFiled), true);
+            //var T_property = s_type.GetProperty(PropertyName);
+            //var pt = T_property.PropertyType;
+            //var cloud_fields = T_property.GetCustomAttributes(typeof(CloudFiled), true);
 
-            if (cloud_fields.Length > 0)
-            {
-                var cloud_field = (CloudFiled)cloud_fields[0];
+            //if (cloud_fields.Length > 0)
+            //{
+            //    var cloud_field = (CloudFiled)cloud_fields[0];
 
 
-                if (cloud_field.IsRelation)
-                {
-                    if (cloud_field.RelationType == CloudFiledType.OneToMany)
-                    {
-                        if (pt.GenericTypeArguments[0] == t_type)
-                        {
-                            var T_result=new  List<T>();
-                            T_result.Add(T_entity);
-                            T_property.SetValue(source, T_result);
-                        }
+            //    if (cloud_field.IsRelation)
+            //    {
+            //        if (cloud_field.RelationType == CloudFiledType.OneToMany)
+            //        {
+            //            if (pt.GenericTypeArguments[0] == t_type)
+            //            {
+            //                var T_result = new List<T>();
+            //                T_result.Add(T_entity);
+            //                T_property.SetValue(source, T_result);
+            //            }
 
-                    }
-                }
-            }
+            //        }
+            //    }
+            //}
+            IRelationX relation = new CloudRelationX<T>();
+            List<T> connects = new List<T>();
+            connects.Add(T_entity);
+            string updateString = relation.AddReltionOneToMany<S>(source, PropertyName, connects);
+            BaaSService.Update<string, S>(source, updateString);
+            return source;
+        }
 
+        public S AddMany2OneRelation<S, T>(S source, string PropertyName, T T_entity)
+            where S : class
+            where T : class
+        {
+            IRelationX relation = new CloudRelationX<T>();
+            string updateString= relation.AddRelationManyToOne<S>(source, PropertyName, T_entity);
+            BaaSService.Update<string, S>(source, updateString);
+            return source;
+        }
+
+
+        public S RemoveOne2ManyRelation<S, T>(S source, string PropertyName, T T_entity)
+            where S : class
+            where T : class
+        {
+            IRelationX relation = new CloudRelationX<T>();
+            List<T> disconnects = new List<T>();
+            disconnects.Add(T_entity);
+            string updateString = relation.RemoveRelationOneToMany<S>(source, PropertyName, disconnects);
+            BaaSService.Update<string, S>(source, updateString);
             return source;
         }
 
@@ -216,6 +249,12 @@ namespace BaaSReponsitory
         {
             return DoPointer(source, ColumnName, target);
         }
+
+        public string RemoveRelationOneToMany<S>(S source, string ColumnName, IEnumerable targets)
+        {
+            return RemoveRelation<S>(source, ColumnName, targets);
+        }
+
 
         #endregion
 

@@ -95,16 +95,10 @@ namespace BaaSReponsitory
                 }
             }
         }
-
-        public virtual void RealtionHandlerAfterGet()
-        {
- 
-        }
-
         public virtual TEntity Add(TEntity entity)
         {
             var rtn = RestService.Post(entity);
-            RealtionHandlerAfterPost(rtn);
+            //RealtionHandlerAfterPost(rtn);
             return rtn;
         }
 
@@ -123,7 +117,7 @@ namespace BaaSReponsitory
         public virtual TEntity Update(TEntity entity)
         {
             var key = RestService.GetEntityId<TKey>(entity);
-            RealtionHandlerAfterPost(entity);
+            //RealtionHandlerAfterPost(entity);
             return RestService.Put(key, entity);
         }
 

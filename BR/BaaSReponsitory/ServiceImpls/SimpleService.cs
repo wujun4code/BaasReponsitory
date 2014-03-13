@@ -30,20 +30,20 @@ namespace BaaSReponsitory
             }
         }
 
-        private IRelation _relatinService;
-        public IRelation RelatinService
+        private IRelation _relationService;
+        public IRelation RelationService
         {
             get
             {
-                if (_relatinService == null)
+                if (_relationService == null)
                 {
-                    _relatinService = new CloudRelation();
+                    _relationService = new CloudRelation();
                 }
-                return _relatinService;
+                return _relationService;
             }
             set
             {
-                _relatinService = value;
+                _relationService = value;
             }
         }
 
@@ -103,33 +103,64 @@ namespace BaaSReponsitory
         {
             return this.ReponsitoryService.CreateAuthenticateService<TUser>().Login<TUser>(user);
         }
-        public IEnumerable<T> GetRelatedEntities<S, T>(S source) where T : class
+        public IEnumerable<T> GetRelatedEntities<S, T>(S source)
+            where S : class
+            where T : class
         {
-            return this.RelatinService.LoadRelatedObject<S, T>(source);
+            return this.RelationService.LoadRelatedObject<S, T>(source);
         }
 
-        public IEnumerable<T> GetRelatedEntities<S, T>(S source, string ColumnName) where T : class 
+        public IEnumerable<T> GetRelatedEntities<S, T>(S source, string ColumnName)
+            where S : class
+            where T : class
         {
-            return this.RelatinService.LoadRelatedObject<S, T>(source, ColumnName);
+            return this.RelationService.LoadRelatedObject<S, T>(source, ColumnName);
         }
 
         public S AddOne2ManyRelation<S, T>(S source, T T_entity)
+            where S : class
+            where T : class
         {
-            return this.RelatinService.AddOne2ManyRelation<S, T>(source, T_entity);
+            return this.RelationService.AddOne2ManyRelation<S, T>(source, T_entity);
         }
 
         public S AddOne2ManyRelation<S, T>(S source, string PropertyName, T T_entity)
+            where S : class
+            where T : class
         {
-            return this.RelatinService.AddOne2ManyRelation(source, PropertyName, T_entity);
+            return this.RelationService.AddOne2ManyRelation(source, PropertyName, T_entity);
         }
-        
+
+        public S AddMany2ManyRelation<S, T>(S source, string S_PropertyName, T T_entity, string T_PropertyName)
+            where S : class
+            where T : class
+        {
+            this.RelationService.AddOne2ManyRelation(T_entity, T_PropertyName, source);
+            return this.RelationService.AddOne2ManyRelation(source, S_PropertyName, T_entity);
+        }
+
+        public S AddOneToOneRelation<S, T>(S source, string S_PropertyName, T T_entity, string T_PropertyName)
+            where S : class
+            where T : class
+        {
+            this.RelationService.AddMany2OneRelation(T_entity, T_PropertyName, source);
+            return this.RelationService.AddMany2OneRelation(source, S_PropertyName, T_entity);
+        }
+
         public T GetRelatedEntity<S, T>(S source)
             where T : class
             where S : class
         {
-            return this.RelatinService.LoadPointObject<S, T>(source);
+            return this.RelationService.LoadPointObject<S, T>(source);
         }
-        
+
+        public S RemoveOne2ManyRelation<S, T>(S soure, string ColumnName, T T_entity)
+            where S : class
+            where T : class
+        {
+            return this.RelationService.RemoveOne2ManyRelation<S, T>(soure, ColumnName, T_entity);
+        }
+
 #endif
         public void Add<TKey, TEntity>(TEntity entity, Action<TEntity> callback) where TEntity : class
         {
