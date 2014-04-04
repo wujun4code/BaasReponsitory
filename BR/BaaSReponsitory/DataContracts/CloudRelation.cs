@@ -139,7 +139,7 @@ namespace BaaSReponsitory
             List<T> connects = new List<T>();
             connects.Add(T_entity);
             string updateString = relation.AddReltionOneToMany<S>(source, PropertyName, connects);
-            BaaSService.Update<string, S>(source, updateString);
+            source = BaaSService.Update<string, S>(source, updateString);
             return source;
         }
 
@@ -148,8 +148,8 @@ namespace BaaSReponsitory
             where T : class
         {
             IRelationX relation = new CloudRelationX<T>();
-            string updateString= relation.AddRelationManyToOne<S>(source, PropertyName, T_entity);
-            BaaSService.Update<string, S>(source, updateString);
+            string updateString = relation.AddRelationManyToOne<S>(source, PropertyName, T_entity);
+            source = BaaSService.Update<string, S>(source, updateString);
             return source;
         }
 
@@ -241,16 +241,19 @@ namespace BaaSReponsitory
         #region interface method impls
 
         public string AddReltionOneToMany<S>(S source, string ColumnName, IEnumerable targets)
+            where S : class
         {
             return AddRelation<S>(source, ColumnName, targets);
         }
 
         public string AddRelationManyToOne<S>(S source, string ColumnName, object target)
+            where S : class
         {
             return DoPointer(source, ColumnName, target);
         }
 
         public string RemoveRelationOneToMany<S>(S source, string ColumnName, IEnumerable targets)
+            where S : class
         {
             return RemoveRelation<S>(source, ColumnName, targets);
         }
@@ -261,10 +264,12 @@ namespace BaaSReponsitory
 
 
         public string AddRelation<S>(S source, string ColumnName, IEnumerable connects)
+            where S : class
         {
             return DoRelation("AddRelation", source, ColumnName, connects);
         }
         public string RemoveRelation<S>(S source, string ColumnName, IEnumerable disconnects)
+            where S : class
         {
             return DoRelation("RemoveRelation", source, ColumnName, disconnects);
         }
@@ -295,12 +300,11 @@ namespace BaaSReponsitory
             return rtn;
         }
 
-        public string DoRelation<S>(string OpString, S source, string ColumnName, IEnumerable tergets)
+        public TKey GetPK<TKey, TEntity>(TEntity entity)
+            where TEntity : class
         {
-            var t_type = typeof(T);
-            var s_type = typeof(S);
-            var s_column_key = ColumnName;
-            var s_id = "";
+            var s_type = typeof(TEntity);
+            TKey rtn = default(TKey);
             var s_properties = s_type.GetProperties();
             foreach (var pro in s_properties)
             {
@@ -314,11 +318,27 @@ namespace BaaSReponsitory
 
                     if (((CloudFiled)cloud_field).IsPrimaryKey)
                     {
-                        s_id = (string)pro.GetValue(source);
+                        rtn = (TKey)pro.GetValue(entity);
+                    }
+                    if (rtn == null)
+                    {
+                        var new_s = this.BaaSService.Add<TKey, TEntity>(entity);
+                        rtn = (TKey)pro.GetValue(new_s);
                     }
                 }
 
             }
+            return rtn;
+        }
+
+
+        public string DoRelation<S>(string OpString, S source, string ColumnName, IEnumerable tergets)
+            where S : class
+        {
+            var t_type = typeof(T);
+            var s_type = typeof(S);
+            var s_column_key = ColumnName;
+            var s_id = GetPK<string, S>(source);
 
             PropertyInfo target_pro = CloudObject.GetPrimaryKeyProperty<T>();
             CloudOpponentsRootWrapper corw = new CloudOpponentsRootWrapper();

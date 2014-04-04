@@ -34,8 +34,26 @@ namespace SampleDemo
             Todo test_todo_obj = new Todo();//A test class for this Parse.com demo(https://parse.com/).you can define another one.
 
             #region demo
+            //GirlType gt = new GirlType 
+            //{
+            //   TypeName="Smart",
+            //};
+            //GirlType old_gt = ss.Get<string, GirlType>("53229ba3e4b0deff076da351");
+            //Boy peter = ss.Get<string, Boy>("52e6328be4b0f8de283adc76");
 
+            //ss.AddOne2ManyRelation<GirlType, Boy>(gt, "FocusdBoys", peter);
+            //ss.RemoveOne2ManyRelation<GirlType, Boy>(old_gt, "FocusdBoys", peter);
 
+            GirlType sexy = new GirlType
+            {
+                TypeName = "Sexy"
+            };
+            Boy neal = new Boy
+            {
+                NickName = "Neal",
+                FullName = "Neal Caffery",
+            };
+            ss.AddMany2ManyRelation<GirlType, Boy>(sexy, "FocusdBoys", neal, "FocusdGirlType");
             #endregion
 
             #region Demo for Add in main thread.

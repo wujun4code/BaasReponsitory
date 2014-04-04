@@ -11,11 +11,11 @@ namespace BaaSReponsitory
     {
 
 #if FRAMEWORK
-        string AddReltionOneToMany<S>(S source, string ColumnName, IEnumerable targets);
+        string AddReltionOneToMany<S>(S source, string ColumnName, IEnumerable targets) where S : class;
 
-        string AddRelationManyToOne<S>(S source, string ColumnName, object target);
+        string AddRelationManyToOne<S>(S source, string ColumnName, object target) where S : class;
 
-        string RemoveRelationOneToMany<S>(S source, string ColumnName, IEnumerable targets);
+        string RemoveRelationOneToMany<S>(S source, string ColumnName, IEnumerable targets) where S : class;
 
 #endif
     }
